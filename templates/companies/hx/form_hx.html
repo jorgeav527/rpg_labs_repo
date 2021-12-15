@@ -1,0 +1,46 @@
+{% load widget_tweaks %}
+
+<form class="form-inline p-3" 
+  autocomplete="off" 
+  hx-post="{% url 'companies:company_create' %}"
+  hx-target="#expenseTbody" 
+  hx-swap="afterbegin">
+  {% csrf_token %}
+  {% for message in messages %}
+  <p style="color: green">{{ message }}</p>
+  {% endfor %}
+
+  <div class="form-group">
+    <div class="field">
+        <label>rs</label>
+        <input type="text" name="social_reason" placeholder="social_reason">
+    </div>
+    <div class="field">
+        <label>direc</label>
+        <input type="text" name="address" placeholder="direcc">
+    </div>
+    <div class="field">
+      <label>direc</label>
+      <input type="text" name="ruc" placeholder="ruc">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary ml-2">Adicionar</button>
+  </div>
+  {% for message in messages %}
+  <p style="color: green">{{ message }}</p>
+  {% endfor %}
+  {% for field in form %}
+  {% for error in field.errors %}
+  <p style="color: red">
+    {{ field.label }}: {{ error }}
+  </p>
+  {% endfor %}
+  {% endfor %}
+  {% for error in form.non_field_errors %}
+  <p style="color: red">
+    Submission error: {{ error }}
+  </p>
+  {% endfor %}
+</form>
