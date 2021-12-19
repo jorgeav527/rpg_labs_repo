@@ -28,16 +28,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core.apps.CoreConfig',
+    # 'django.contrib.sites',
+    # Started Apps
     'members.apps.MembersConfig',
+    'core.apps.CoreConfig',
     'companies.apps.CompaniesConfig',
     'projects.apps.ProjectsConfig',
     'labs.apps.LabsConfig',
     'tests.apps.TestsConfig',
+    # Django widget tweaks
     'widget_tweaks',
 ]
 
-AUTH_USER_MODEL = "members.User"
+
+AUTH_USER_MODEL = "members.CustomUser"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -66,6 +71,9 @@ TEMPLATES = [
         },
     },
 ]
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -127,3 +135,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = "core:home"  # change to desired url name
+LOGOUT_REDIRECT_URL = "core:home"  # change to desired url name

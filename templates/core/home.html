@@ -1,6 +1,16 @@
-{% extends "base.html" %}
+{% extends "layouts/base.html" %}
+
+{% block title %} {{title_page}} {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-<p>{{ today }}</p>
+
+{{today}}
 
 {% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

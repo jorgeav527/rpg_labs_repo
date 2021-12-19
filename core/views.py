@@ -12,7 +12,7 @@ def home(request):
     }
     if today.weekday() == 0:
         context['special_message'] = 'Happy Monday'
-    return TemplateResponse(request, 'core/home.html', context)
+    return render(request, 'core/index.html', context)
 
 
 def blog_view(request):
