@@ -1,6 +1,8 @@
 {% extends "layouts/base-fullscreen.html" %}
+{% load widget_tweaks %}
+{% load static %}
 
-{% block title %} Login {% endblock %}
+{% block title %} {{title_page|upper}}  {% endblock %}
 
 {% block content %} 
 
@@ -12,52 +14,58 @@
 					<div class="col-md-12">
 						<div class="card-body">
 
-							<img src="/static/assets/images/logo-dark.png" alt="" class="img-fluid mb-4">
+							<img src="{% static 'assets/images/logo.jpeg' %}" alt="" class="img-fluid mb-4" width="167px" height="33px">
 							<h4 class="mb-3 f-w-400">
-								Sign IN
+								{{ title | title }}
 							</h4>
-							<span class="mb-0 text-muted">
-								{% if msg %}
-									{{ msg | safe }}
-								{% else %}
-									Add your credentials
-								{% endif %} 
-							</span>
+
+							{% include 'includes/messages.html' %}
+
 							<!-- dummy spacer -->
-							<p> <br /> </p>						
-							<form role="form" method="post" action="">
+							<p> <br /> </p>
+
+							<form role="form" method="POST">
 
 								{% csrf_token %} 
-								
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text"><i class="feather icon-user"></i></span>
+
+								<div class="mb-3">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="feather icon-at-sign"></i></span>
+										</div>
+										{% render_field form.email class="form-control" placeholder=form.email.label %}
 									</div>
-									{{ form.username }}
+									<small class="form-text text-muted">{{ form.email.help_text }}</small>
+									{% for error in form.email.errors %}
+									<p class="form-text text-danger">{{ error }}</p>
+									{% endfor %}
 								</div>
-								<div class="input-group mb-4">
-									<div class="input-group-prepend">
-										<span class="input-group-text"><i class="feather icon-lock"></i></span>
+	
+								<div class="mb-3">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="feather icon-lock"></i></span>
+										</div>
+										{% render_field form.password class="form-control" placeholder=form.password.label %}
 									</div>
-									{{ form.password }}
-								</div>
+									<small class="form-text text-muted">{{ form.password.help_text }}</small>
+									{% for error in form.password.errors %}
+									<p class="form-text text-danger">{{ error }}</p>
+									{% endfor %}
+								</div>								
+
 								<div class="form-group text-left mt-2">
 									<div class="checkbox checkbox-primary d-inline">
 										<input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
-										<label for="checkbox-fill-a1" class="cr"> Save credentials</label>
+										<label for="checkbox-fill-a1" class="cr"> Guardar credenciales</label>
 									</div>
 								</div>
-								<button type="submit" name="login" class="btn btn-block btn-primary mb-4">Signin</button>
+								<button type="submit" name="login" class="btn btn-block btn-primary mb-4">Ingresar</button>
 							
 							</form>
 
-							<p class="mb-0 text-muted">Don’t have an account? <a href="{% url 'register' %}" class="f-w-400">Signup</a></p>
-							<p class="mb-2 text-muted">
-								<br />
-								&copy; <a target="_blank" rel="noopener" href="https://bit.ly/37fF9RT" class="f-w-400">CodedThemes</a>
-								- <a target="_blank" rel="noopener" 
-								     href="https://appseed.us/admin-dashboards/django-gradient-able" class="f-w-400">Django Gradient</a>
-							</p>
+							<p class="mb-0 text-muted">Aún sin usuario? <a href="{% url 'members:signup_admin' %}" class="f-w-400">Registrarme como administrador</a></p>
+
 						</div>
 					</div>
 				</div>

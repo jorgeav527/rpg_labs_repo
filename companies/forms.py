@@ -8,17 +8,25 @@ class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ['social_reason', 'address', 'ruc']
-        widgets = {
-            'social_reason': forms.TextInput(attrs={'placeholder': 'Razón Social', 'autofocus': True, }),
-            'address': forms.TextInput(attrs={'placeholder': 'Dirección'}),
-            'ruc': forms.TextInput(attrs={'placeholder': 'RUC'}),
+        labels = {
+            'social_reason': 'Razón Social',
+            'address': 'Dirección',
+            'ruc': 'RUC',
+        }
+        help_texts = {
+            'social_reason': 'Ingresa el nombre de la empresa.',
+            'address': 'Ingresa la Dirección fisica de la empresa.',
+            'ruc': 'Ingresa el RUC de la empresa.',
+        }
+        error_messages = {
+            'ruc': {
+                'unique': 'El RUC esta en uso.',
+            }
         }
 
-    def clean_ruc(self):
-        cleaned_data = self.cleaned_data
-        ruc = cleaned_data.get['ruc']
-        qs = Company.objects.filter(ruc__exact=ruc)
-        if qs.exists():
-            # self.add_error('ruc', 'This RUC is taken.')
-            raise forms.ValidationError('This RUC is taken')
-        return ruc
+    # def clean_ruc(self):
+    #     ruc = self.cleaned_data.get("ruc")
+    #     qs = Company.objects.filter(ruc__exact=ruc)
+    #     if qs.exists():
+    #         self.add_error('ruc', 'El RUC esta en uso.')
+    #     return ruc

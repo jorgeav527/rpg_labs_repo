@@ -1,3 +1,11 @@
-<script src="/static/assets/js/vendor-all.min.js"></script>
-<script src="/static/assets/js/plugins/bootstrap.min.js"></script>
-<script src="/static/assets/js/pcoded.min.js"></script>
+{% load static %}
+
+<script src="{% static 'assets/js/vendor-all.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+
+
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@1.5.0"></script>
+  <script src="https://unpkg.com/htmx.org@1.5.0/dist/ext/client-side-templates.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
