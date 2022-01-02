@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse_lazy
 
 
 class Company(models.Model):
@@ -15,3 +16,6 @@ class Company(models.Model):
 
     def __str__(self):
         return f'{self.social_reason} {self.ruc}'
+
+    def get_absolute_url(self):
+        return reverse_lazy('companies:company_detail', kwargs={'id': self.id})

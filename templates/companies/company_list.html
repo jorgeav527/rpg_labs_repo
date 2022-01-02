@@ -1,0 +1,343 @@
+{% extends "layouts/base.html" %}
+{% load widget_tweaks %}
+
+{% block title %} {{ title_page }} {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}	
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-content">
+
+            <!-- [ Main Content ] start -->
+            <div class="row">       
+                        
+                <!-- Customer overview start -->
+                <div class="col-lg-12">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>{{ title|title }}</h5>
+                            <a href="{% url 'companies:company_list_create' %}" type="button" class="btn btn-outline-primary">
+                                <i class="feather icon-plus-circle f-16 mr-2"></i>Agregar
+                            </a>
+                            <div class="card-header-right">
+                                <div class="btn-group card-option">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="feather icon-more-horizontal"></i>
+                                    </button>
+                                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                        <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                                        <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Colapsar</span><span style="display:none"><i class="feather icon-plus"></i> Expadir</span></a></li>
+                                        <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> Refrescar</a></li>
+                                        <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> Remover</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <ul class="nav nav-pills nav-fill mt-3 border-bottom pb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i class="feather icon-file-text m-r-5"></i>Compañias</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><i class="feather icon-file-text m-r-5"></i>Clientes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="feather icon-file-text m-r-5"></i>Projectos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-news-tab" data-toggle="pill" href="#pills-news" role="tab" aria-controls="pills-news" aria-selected="false"><i class="feather icon-search m-r-5"></i> Busrcar(not)</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <div class="table-responsive">
+                                        <div class="customer-scroll" style="height:420px;position:relative;">
+                                            <table class="table table-hover m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span>Nº<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+                                                        <th><span>Razón Social<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+                                                        <th><span>Dirección<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+                                                        <th><span>RUC<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+                                                        <th><span>Empleados<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+                                                        <th><span>Proyectos<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+                                                        <th><span>Acciones<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="companyTable">
+                                                    {% include "companies/company_table.html" %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                    <div class="table-responsive">
+                                        <div class="customer-scroll1" style="height:420px;position:relative;">
+                                            <table class="table table-hover m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span>Campaign date</span></th>
+                                                        <th><span>Click <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>Cost <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>CTR <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>ARPU <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>ECPI <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>ROI <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>Revenue <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>Conversions <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>8-11-2016</td>
+                                                        <td>786
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-danger rounded" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>485
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-primary rounded" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>769
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-warning rounded" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>45,3%
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-success rounded" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>6,7%
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>8,56
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-danger rounded" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>10:55
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-warning rounded" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>33.8%
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-success rounded" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                    <div class="table-responsive">
+                                        <div class="customer-scroll2" style="height:420px;position:relative;">
+                                            <table class="table table-hover m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span>Campaign date</span></th>
+                                                        <th><span>Click <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>Cost <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>CTR <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>ARPU <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>ECPI <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>ROI <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>Revenue <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>Conversions <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>8-11-2016</td>
+                                                        <td>786
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-danger rounded" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>485
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-primary rounded" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>769
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-warning rounded" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>45,3%
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-success rounded" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>6,7%
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>8,56
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-danger rounded" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>10:55
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-warning rounded" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>33.8%
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-success rounded" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-news" role="tabpanel" aria-labelledby="pills-news-tab">
+                                    <div class="table-responsive">
+                                        <div class="customer-scroll3" style="height:420px;position:relative;">
+                                            <table class="table table-hover m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span>Campaign date</span></th>
+                                                        <th><span>Click <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>Cost <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>CTR <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>ARPU <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>ECPI <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>ROI <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>Revenue <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                        <th><span>Conversions <a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16"></i></a></span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>8-11-2016</td>
+                                                        <td>786
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-danger rounded" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>485
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-primary rounded" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>769
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-warning rounded" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>45,3%
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-success rounded" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>6,7%
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-info rounded" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>8,56
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-danger rounded" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>10:55
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-warning rounded" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td>33.8%
+                                                            <div class="progress mt-1" style="height:4px;">
+                                                                <div class="progress-bar bg-success rounded" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Customer overview end -->
+
+                <!-- order-card start -->
+                <div class="col-md-6 col-xl-3">
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-body">
+                            <h6 class="text-white">Compañias</h6>
+                            <h2 class="text-right text-white"><i class="feather icon-shopping-cart float-left"></i><span>486</span></h2>
+                            <p class="m-b-0">Este Mes<span class="float-right">---</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <div class="card bg-c-green order-card">
+                        <div class="card-body">
+                            <h6 class="text-white">Clientes</h6>
+                            <h2 class="text-right text-white"><i class="feather icon-tag float-left"></i><span>1641</span></h2>
+                            <p class="m-b-0">Este mes<span class="float-right">---</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <div class="card bg-c-yellow order-card">
+                        <div class="card-body">
+                            <h6 class="text-white">Proyectos</h6>
+                            <h2 class="text-right text-white"><i class="feather icon-repeat float-left"></i><span>$42,562</span></h2>
+                            <p class="m-b-0">This Month<span class="float-right">---</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <div class="card bg-c-red order-card">
+                        <div class="card-body">
+                            <h6 class="text-white">-------</h6>
+                            <h2 class="text-right text-white"><i class="feather icon-award float-left"></i><span>$------</span></h2>
+                            <p class="m-b-0">-------<span class="float-right">$-----</span></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- order-card end -->
+            </div>
+            <!-- [ Main Content ] end -->
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <!-- Apex Chart -->
+    <script src="/static/assets/js/plugins/apexcharts.min.js"></script>
+    <!-- custom-chart js -->
+    <script src="/static/assets/js/pages/dashboard-main.js"></script>
+    <!-- HTMX headers js -->
+    <script>
+        // Necessário por causa do delete
+        document.body.addEventListener('htmx:configRequest', (event) => {
+          event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        });
+    </script>
+
+{% endblock javascripts %}
