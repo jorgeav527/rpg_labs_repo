@@ -1,19 +1,24 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 
 from .forms import CompanyForm
 from .models import Company
 
+USER = get_user_model()
+
 
 def company_list(request):
-    companies_list = Company.objects.all()
+    client_list = USER.clientprofile.get_queryset()
+    company_list = Company.objects.all()
     template_name = 'companies/company_list.html'
     title = 'registro de compañias'
     section = 'cotización'
-    title_page = 'RE-COM'
+    title_page = 're-com'
     context = {
-        'companies_list': companies_list,
+        'client_list': client_list,
+        'company_list': company_list,
         'title': title,
         'section': section,
         'title_page': title_page,
@@ -22,10 +27,11 @@ def company_list(request):
 
 
 def company_list_create_update(request, id=None):
-    companies_list = Company.objects.all()
+    client_list = USER.clientprofile.get_queryset()
+    company_list = Company.objects.all()
     title = 'registro de compañias'
     section = 'cotización'
-    title_page = 'RE-COM'
+    title_page = 're-com'
     obj = None
     context = {}
     # update view
@@ -56,7 +62,8 @@ def company_list_create_update(request, id=None):
                 messages.error(request, 'Hubo un error en el Registro.')
 
     context = {
-        'companies_list': companies_list,
+        'client_list': client_list,
+        'company_list': company_list,
         'form': form,
         'obj': obj,
         'title': title,
@@ -69,14 +76,12 @@ def company_list_create_update(request, id=None):
 
 def company_detail(request, id):
     template_name = 'companies/company_detail.html'
-    companies_list = Company.objects.all()
     obj = get_object_or_404(Company, id=id)
     title = 'detalle compañia'
     title_page = 'INFO-COM'
 
     context = {
         'obj': obj,
-        'companies_list': companies_list,
     }
 
     return render(request, template_name, context)

@@ -1,14 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
-from django.conf import settings
-from django.db.models.signals import post_save, pre_save
-from django.dispatch import receiver
-
-from companies.models import Company
 from core.utils import *
 
-from .choices import Roles, Professions
+from members.choices import Roles, Professions
 
 
 class CustomUserManager(BaseUserManager):
@@ -43,7 +38,6 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-
     username = None
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
@@ -51,6 +45,9 @@ class User(AbstractUser):
     dni = models.BigIntegerField(unique=True, null=True, default=None)
     role = models.CharField(
         max_length=4, choices=Roles.choices, default=Roles.NONE)
+    profession = models.CharField(
+        max_length=4, choices=Professions.choices, default=Professions.NONE)
+    cell_phone = models.PositiveBigIntegerField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -65,42 +62,8 @@ class User(AbstractUser):
     def __str__(self):
         return f'DNI: {self.dni}, Email: {self.email}'
 
-    def get_role(self):
-        role_name = None
-        if self.role == Roles.ADMIN:
-            role_name = 'Administrador'
-        return role_name
-
-
-# class ClientProfile(models.Model):
-#     user = models.OneToOneField(
-#         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name='related client profile')
-#     company = models.ForeignKey(
-#         Company, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='the related company')
-#     profession = models.CharField(verbose_name='profession',
-#                                   max_length=4, choices=Professions.choices, default=Professions.ENGINEER)
-#     cell_phone = models.PositiveBigIntegerField(
-#         verbose_name='cell phone', blank=True, null=True)
-#     created = models.DateTimeField(
-#         verbose_name='created at', auto_now_add=True)
-#     updated = models.DateTimeField(verbose_name='updated at', auto_now=True)
-
-#     def __str__(self):
-#         return f'{self.profession} {self.user.first_name} {self.user.last_name}'
-
-
-class AdminProfile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name='related admin profile')
-    profession = models.CharField(
-        max_length=4, choices=Professions.choices, default=Professions.NONE)
-    cell_phone = models.PositiveBigIntegerField(blank=True, null=True)
-    created = models.DateTimeField(
-        verbose_name='created at', auto_now_add=True)
-    updated = models.DateTimeField(verbose_name='updated at', auto_now=True)
-
-    def __str__(self):
-        return f'{self.profession} {self.user.first_name} {self.user.last_name}'
-
-# https://docs.djangoproject.com/en/3.2/ref/models/fields/#primary-key
-# https://tech.serhatteker.com/post/2020-01/email-as-username-django/
+    # def get_role(self):
+    #     role_name = None
+    #     if self.role == Roles.ADMIN:
+    #         role_name = 'Administrador'
+    #     return role_name

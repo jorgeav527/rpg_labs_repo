@@ -1,5 +1,5 @@
 <tr id="companyTableRow">
-    <td>{{ company.id }}</td>
+    <td>{{ company.id }}-{{ forloop.revcounter }}</td>
     <td>{{ company.social_reason }}
         <div class="progress mt-1" style="height:4px;">
             <div class="progress-bar bg-warning rounded" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
@@ -8,7 +8,9 @@
     <td>{{ company.address }}</td>
     <td>{{ company.ruc }}</td>
     <td>
-        <button type="button" class="btn  btn-secondary"><i class="feather icon-plus-circle f-16 mr-2"></i><span class="badge badge-light">4</span></button>
+        <a href="{% url 'members:signup_client_create' company.id %}">
+            <button type="button" class="btn  btn-secondary"><i class="feather icon-plus-circle f-16 mr-2"></i><span class="badge badge-light">{{ company.clientprofile_set.count }}</span></button>
+        </a>
     </td>
     <td>
         <button type="button" class="btn  btn-secondary"><i class="feather icon-plus-circle f-16 mr-2"></i><span class="badge badge-light">4</span></button>
@@ -27,10 +29,13 @@
             </button>
         </a>
         <a href=""
+            type="button" class="btn btn-outline-info"
+            data-toggle="modal"
+            data-target="#detailModalCompany"
             hx-get="{% url 'companies:company_detail_hx' company.id %}"
-            hx-target="#companyForm"
+            hx-target="#detailCompanyContent"
             hx-swap="innerHTML">
-            <button type="button" class="btn btn-outline-info"><i class="feather icon-info f-16 mr-2"></i>Info</button>
+            <i class="feather icon-info f-16 mr-2"></i>Info
         </a>
     </td>
 </tr>

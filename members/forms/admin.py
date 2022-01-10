@@ -1,8 +1,8 @@
-from .choices import Roles
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import get_user_model
+from members.choices import Roles
 
 USER = get_user_model()
 
@@ -24,12 +24,14 @@ class AdminSignUpForm(UserCreationForm):
     class Meta:
         model = USER
         fields = ['email', 'first_name', 'last_name',
-                  'dni', 'password1', 'password2']
+                  'dni', 'profession', 'cell_phone', 'password1', 'password2']
         labels = {
             'email': 'Dirección Email',
             'first_name': 'Nombres',
             'last_name': 'Apellidos',
             'dni': 'DNI',
+            'profession': 'Profesión',
+            'cell_phone': 'Celular',
         }
         help_texts = {
             'email': 'Solo correos gmail.',
@@ -46,24 +48,3 @@ class AdminSignUpForm(UserCreationForm):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError('Las contraseñas no coinciden')
         return password2
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.role = Roles.ADMIN
-        user.is_staff = True
-        if commit:
-            user.save()
-        return user
-
-
-class AuthenticationForm(forms.Form):
-    email = forms.EmailField(widget=forms.TextInput(
-        attrs={'name': 'email'}),
-        label='Dirección Email')
-    password = forms.CharField(widget=forms.PasswordInput(
-        attrs={'autocomplete': 'current-password'}),
-        strip=False,
-        label="Contraseña")
-
-    class Meta:
-        fields = ['email', 'password']
