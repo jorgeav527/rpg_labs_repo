@@ -1,13 +1,13 @@
-{% extends 'companies/company_list_create_update.html' %}
+{% extends 'core/enrolling.html' %}
 {% load widget_tweaks %}
 
 {{ block.super }}
 
 {% block content_change %}
-    {% if obj_c_p %}
-    <form action="{% url 'members:signup_client_update' obj_c_p.id %}" method="post">
+    {% if user_obj %}
+    <form action="{% url 'members:update_signup_client' user_obj.id %}" method="POST">
     {% else %}
-    <form action="{% url 'members:signup_client_create' obj_company.id %}" method="post">
+    <form action="{% url 'members:create_signup_client' company_obj.id %}" method="POST">
     {% endif %}
         {% csrf_token %}
         <div class="form-group">

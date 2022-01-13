@@ -16,5 +16,10 @@ class ClientProfile(models.Model):
         verbose_name='created at', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='updated at', auto_now=True)
 
+    class Meta:
+        ordering = ('-created',)
+        verbose_name = 'client'
+        verbose_name_plural = 'clients'
+
     def __str__(self):
         return f'Client {self.user}'

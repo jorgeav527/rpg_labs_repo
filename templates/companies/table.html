@@ -1,0 +1,16 @@
+<thead>
+    <tr>
+        <th><span>Nº<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Razón Social<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Dirección<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>RUC<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Empleados<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Proyectos<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Acciones<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+    </tr>
+</thead>
+<tbody>
+    {% for company in list_companies %}
+    {% include 'companies/table_row.html' %}
+    {% endfor %}
+</tbody>

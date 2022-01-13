@@ -1,0 +1,10 @@
+<tr id="clientTableRow">
+    <td>{{ client.id }}-{{ forloop.revcounter }}</td>
+    <td>{{ client.user.get_profession_display }}</td>
+    <td>{{ client.user.first_name }}</td>
+    <td>{{ client.user.last_name }}</td>
+    <td>{{ client.user.email }}</td>
+    <td>{{ client.user.dni }}</td>
+    <td>{{ client.user.cell_phone }}</td>
+    <td>{{ client.company.social_reason  }}</td>
+</tr>

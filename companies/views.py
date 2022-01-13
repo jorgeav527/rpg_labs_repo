@@ -3,97 +3,84 @@ from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
-from .forms import CompanyForm
-from .models import Company
+from companies.forms import CompanyForm
+from companies.models import Company
+from projects.models import Project
 
 USER = get_user_model()
 
 
-def company_list(request):
-    client_list = USER.clientprofile.get_queryset()
-    company_list = Company.objects.all()
-    template_name = 'companies/company_list.html'
-    title = 'registro de compañias'
-    section = 'cotización'
-    title_page = 're-com'
+def list_company(request):
+    list_companies = Company.objects.all()
     context = {
-        'client_list': client_list,
-        'company_list': company_list,
-        'title': title,
-        'section': section,
-        'title_page': title_page,
+        'list_companies': list_companies,
     }
-    return render(request, template_name, context)
+    return render(request, 'companies/table.html', context)
 
 
-def company_list_create_update(request, id=None):
-    client_list = USER.clientprofile.get_queryset()
-    company_list = Company.objects.all()
+def update_create_company(request, company_id=None):
+    company_obj = None
     title = 'registro de compañias'
     section = 'cotización'
     title_page = 're-com'
-    obj = None
     context = {}
     # update view
-    if id:
-        obj = get_object_or_404(Company, id=id)
-        form = CompanyForm(request.POST or None, instance=obj)
-        context['form'] = form
-        context['obj'] = obj
+    if company_id:
+        company_obj = get_object_or_404(Company, id=company_id)
+        form_company = CompanyForm(request.POST or None, instance=company_obj)
+        context['form_company'] = form_company
+        context['company_obj'] = company_obj
         if request.method == 'POST':
-            form = CompanyForm(request.POST or None, instance=obj)
-            if form.is_valid():
-                form.save()
+            form_company = CompanyForm(
+                request.POST or None, instance=company_obj)
+            if form_company.is_valid():
+                form_company.save()
                 messages.success(request, 'Actualizado.')
-                return redirect('companies:company_list_update', id=id)
+                return redirect('companies:update_company', company_id=company_id)
             else:
                 messages.error(request, 'Hubo un error en el Registro.')
     # create view
-    elif id == None:
-        form = CompanyForm()
-        context['form'] = form
+    elif company_id == None:
+        form_company = CompanyForm()
+        context['form_company'] = form_company
         if request.method == 'POST':
-            form = CompanyForm(request.POST or None)
-            if form.is_valid():
-                form.save()
+            form_company = CompanyForm(request.POST or None)
+            if form_company.is_valid():
+                form_company.save()
                 messages.success(request, 'Creado.')
-                return redirect('companies:company_list_create')
+                return redirect('companies:create_company')
             else:
                 messages.error(request, 'Hubo un error en el Registro.')
 
     context = {
-        'client_list': client_list,
-        'company_list': company_list,
-        'form': form,
-        'obj': obj,
+        'form_company': form_company,
+        'company_obj': company_obj,
         'title': title,
         'title_page': title_page,
         'section': section
     }
 
-    return render(request, 'companies/company_form_create_update.html', context)
+    return render(request, 'companies/form_update_create.html', context)
 
 
-def company_detail(request, id):
-    template_name = 'companies/company_detail.html'
-    obj = get_object_or_404(Company, id=id)
-    title = 'detalle compañia'
-    title_page = 'INFO-COM'
+def detail_company(request, company_id):
+    company_obj = get_object_or_404(Company, id=company_id)
+    title = 'información'
 
     context = {
-        'obj': obj,
+        'company_obj': company_obj,
+        'title': title
     }
 
-    return render(request, template_name, context)
+    return render(request, 'companies/detail.html', context)
 
 
-def company_delete(request, id):
-    template_name = 'companies/company_table.html'
-    obj = Company.objects.get(id=id)
-    obj.delete()
-
+def delete_company(request, company_id):
+    company_obj = Company.objects.get(id=company_id)
+    company_obj.delete()
+    list_companies = Company.objects.all()
     context = {
-        'obj': obj,
+        'list_companies': list_companies,
     }
 
-    return render(request, template_name, context)
+    return render(request, 'companies/table.html', context)

@@ -21,3 +21,15 @@ def blog_view(request):
         "title_page": title_page,
     }
     return render(request, 'core/blog.html', context)
+
+
+def enrolling(request):
+    title = 'registro de compañias, clientes y projectos'
+    section = 'cotización'
+    title_page = 'registro'
+    context = {
+        'title': title,
+        'section': section,
+        'title_page': title_page,
+    }
+    return render(request, 'core/enrolling.html', context)

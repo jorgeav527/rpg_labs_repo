@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="detailModalModalLabel">{{ title|upper }}</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+<div class="modal-body">
+    <h5 class="card-title">{{ company_obj.social_reason|title }} Nº RUC {{ company_obj.ruc }}</h5>
+    <h6 class="card-subtitle mb-2">Empleados</h6>
+    <ul>
+        {% for item_client in company_obj.clientprofile_set.all %}
+        <li class="card-text">{{ item_client.user.get_profession_display }} {{ item_client.user.first_name|title }} {{ item_client.user.last_name|title }} DNI: {{ item_client.user.dni }} 
+            <a href="{% url 'members:update_signup_client' item_client.user.id %}" class="ml-4 badge badge-warning">Editar</a>
+            <a href="" class="badge badge-danger"
+                hx-delete="{% url 'members:client_delete_hx' item_client.user.id %}"
+                hx-confirm="Confirma eliminar el empleado {{ item_client.user.get_profession_display }} {{ item_client.user.first_name|title }} {{ item_client.user.last_name|title }} DNI: {{ item_client.user.dni }}"
+                hx-target="#detailCompanyContent"
+                hx-swap="innerHTML swap:500ms">
+                Borrar
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    <h6 class="card-subtitle mb-2">Proyectos</h6>
+    <ul>
+        {% for item_project in company_obj.project_set.all %}
+        <li class="card-text">{{ item_project.name }} {{ item_project.location }}
+            <a href="{% url 'projects:update_project' item_project.id %}" class="ml-4 badge badge-warning">Editar</a>
+            <a href="" class="badge badge-danger"
+                hx-delete="{% url 'projects:delete_project_hx' item_project.id %}"
+                hx-confirm="Confirma eliminar el projecto {{ item_project.name|title }} {{ item_project.location|title }}"
+                hx-target="#detailCompanyContent"
+                hx-swap="innerHTML swap:500ms">
+                Borrar
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'companies:update_company' company_obj.id %}" class="card-link">Editar empresa</a>
+    <a href="{% url 'companies:create_company' %}" class="card-link">Crear otra empresa</a>    
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn  btn-secondary" data-dismiss="modal">Close</button>
+</div>

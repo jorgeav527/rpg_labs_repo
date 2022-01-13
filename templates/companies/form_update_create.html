@@ -1,0 +1,45 @@
+{% extends 'core/enrolling.html' %}
+{% load widget_tweaks %}
+
+{{ block.super }}
+
+{% block content_change %}
+    {% if company_obj %}
+    <form action="{% url 'companies:update_company' company_obj.id %}" method="POST">
+    {% else %}
+    <form action="{% url 'companies:create_company' %}" method="POST">
+    {% endif %}
+        {% csrf_token %} 
+        <div class="form-group">
+            <label for="">{{ form_company.social_reason.label }}</label>
+            {% render_field form_company.social_reason class="form-control" placeholder=form_company.social_reason.label %}
+            {% if form_company.social_reason.help_text %}
+            <small class="form-text text-muted">{{ form_company.social_reason.help_text }}</small>
+            {% endif %}
+            {% for error in form_company.social_reason.errors %}
+            <p class="form-text text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="">{{ form_company.address.label }}</label>
+            {% render_field form_company.address class="form-control" placeholder=form_company.address.label %}
+            {% if form_company.address.help_text %}
+            <small class="form-text text-muted">{{ form_company.address.help_text }}</small>
+            {% endif %}
+            {% for error in form_company.address.errors %}
+            <p class="form-text text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="">{{ form_company.ruc.label }}</label>
+            {% render_field form_company.ruc class="form-control" placeholder=form_company.ruc.label %}
+            {% if form_company.ruc.help_text %}
+            <small class="form-text text-muted">{{ form_company.ruc.help_text }}</small>
+            {% endif %}
+            {% for error in form_company.ruc.errors %}
+            <p class="form-text text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+{% endblock %}

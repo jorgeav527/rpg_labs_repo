@@ -11,5 +11,10 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ('-created',)
+        verbose_name = 'project'
+        verbose_name_plural = 'projects'
+
     def __str__(self):
         return f'{self.name}'
