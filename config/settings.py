@@ -32,16 +32,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'django.contrib.sites',
     # Started Apps
-    'members.apps.MembersConfig',
     'core.apps.CoreConfig',
+    'members.apps.MembersConfig',
     'companies.apps.CompaniesConfig',
     'projects.apps.ProjectsConfig',
     'labs.apps.LabsConfig',
-    'tests.apps.TestsConfig',
+    'tests_labs.apps.TestsLabsConfig',
     # Django widget tweaks
     'widget_tweaks',
     # Django htmx
     "django_htmx",
+    # django_extensions
+    'django_extensions',
 ]
 
 

@@ -9,7 +9,7 @@ USER = get_user_model()
 
 
 @receiver(post_save, sender=USER)
-def create_or_update_customuser_profile(sender, instance, created, using, update_fields, **kwargs):
+def post_save_user_roles(sender, instance, created, using, update_fields, **kwargs):
     if instance.role == Roles.CLIENT:
         if created:
             ClientProfile.objects.create(user=instance)
