@@ -13,7 +13,7 @@ class TestIncludeInline(admin.TabularInline):
 @ admin.register(TestLab)
 class TestLabAdmin(admin.ModelAdmin):
     list_display = ('pk', 'characteristic', 'name_test', 'basic_norm',
-                    'refer_norm', 'unit', 'quantity', 'price', 'is_parent')
+                    'refer_norm', 'unit', 'quantity', 'price', 'is_parent', 'get_partial_igv', 'get_partial_not_igv')
     list_filter = ('name_test', 'characteristic__matrix')
     list_display_links = ('name_test',)
     radio_fields = {'characteristic': admin.HORIZONTAL}

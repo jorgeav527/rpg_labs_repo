@@ -33,3 +33,15 @@ def enrolling(request):
         'title_page': title_page,
     }
     return render(request, 'core/enrolling.html', context)
+
+
+def requirement(request):
+    title = 'registro de requerimientos'
+    section = 'cotización'
+    title_page = 'requerimiento'
+    context = {
+        'title': title,
+        'section': section,
+        'title_page': title_page,
+    }
+    return render(request, 'core/requirement.html', context)

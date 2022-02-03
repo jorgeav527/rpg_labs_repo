@@ -1,5 +1,4 @@
 {% extends "layouts/base.html" %}
-{% load static %}
 {% load widget_tweaks %}
 
 {% block title %} {{ title_page|upper }} {% endblock %} 
@@ -37,8 +36,8 @@
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>{{ title|title }}</h5>
-                            <a href="{% url 'companies:create_company' %}" type="button" class="btn btn-outline-primary">
-                                <i class="feather icon-plus-circle f-16 mr-2"></i>Agregar Compañia
+                            <a href="{% url 'orders:create_order' %}" type="button" class="btn btn-outline-primary">
+                                <i class="feather icon-plus-circle f-16 mr-2"></i>Agregar Requerimiento
                             </a>
                             <div class="card-header-right">
                                 <div class="btn-group card-option">
@@ -56,11 +55,11 @@
                             <ul class="nav nav-pills nav-fill mt-3 border-bottom pb-3" id="pills-tab" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" id="pills-companies-tab" data-toggle="pill" href="#pills-companies" role="tab" aria-controls="pills-companies" aria-selected="true"
-                                        hx-get="{% url 'companies:list_company_hx' %}"
+                                        hx-get="{% url 'orders:list_order_hx' %}"
                                         hx-trigger="load after:100ms"
-                                        hx-target="#companyTable" 
+                                        hx-target="#orderTable"
                                         hx-swap="innerHTML">
-                                        <i class="feather icon-file-text m-r-5"></i>Compañias
+                                        <i class="feather icon-file-text m-r-5"></i>Cotización
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -69,7 +68,7 @@
                                         hx-trigger="load after:100ms"
                                         hx-target="#clientTable" 
                                         hx-swap="innerHTML">
-                                        <i class="feather icon-file-text m-r-5"></i>Clientes
+                                        <i class="feather icon-file-text m-r-5"></i>Requerimiento
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -78,11 +77,13 @@
                                         hx-trigger="load after:100ms"
                                         hx-target="#projectTable" 
                                         hx-swap="innerHTML">
-                                        <i class="feather icon-file-text m-r-5"></i>Projectos
+                                        <i class="feather icon-file-text m-r-5"></i>Orden para Ejecución
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="pills-news-tab" data-toggle="pill" href="#pills-news" role="tab" aria-controls="pills-news" aria-selected="false"><i class="feather icon-search m-r-5"></i> Busrcar(not)</a>
+                                    <a class="nav-link" id="pills-news-tab" data-toggle="pill" href="#pills-news" role="tab" aria-controls="pills-news" aria-selected="false">
+                                        <i class="feather icon-search m-r-5"></i>Liquidación
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -91,7 +92,7 @@
                                 <div class="tab-pane fade show active" id="pills-companies" role="tabpanel" aria-labelledby="pills-companies-tab">
                                     <div class="table-responsive">
                                         <div class="customer-scroll" style="height:420px;position:relative;">
-                                            <table id="companyTable" class="table table-hover m-b-0">
+                                            <table id="orderTable" class="table table-hover m-b-0">
                                             </table>
                                         </div>
                                     </div>

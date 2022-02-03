@@ -1,6 +1,11 @@
+import os
 from django.db import models
 
+from decimal import Decimal, ROUND_UP
+
 from tests_labs.choices import Matrices, Labs, Unit
+
+IGV = Decimal(os.environ.get('IGV'))
 
 
 class CharacteristicTestLab(models.Model):
@@ -41,6 +46,12 @@ class TestLab(models.Model):
 
     def __str__(self):
         return '(%s): %s' % (self.pk, self.name_test)
+
+    def get_partial_not_igv(self):
+        return Decimal(self.price * self.quantity / IGV).quantize(Decimal('0.01'), rounding=ROUND_UP)
+
+    def get_partial_igv(self):
+        return Decimal(self.price * self.quantity).quantize(Decimal('0.01'), rounding=ROUND_UP)
 
 
 class TestInclude(models.Model):

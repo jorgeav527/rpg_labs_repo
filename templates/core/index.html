@@ -1,6 +1,7 @@
 {% extends "layouts/base.html" %}
+{% load static %}
 
-{% block title %} {{title_page}} {% endblock %} 
+{% block title %} {{ title_page|upper }} {% endblock %} 
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -1582,8 +1583,8 @@
 {% block javascripts %}
 
     <!-- Apex Chart -->
-    <script src="/static/assets/js/plugins/apexcharts.min.js"></script>
+    <script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script>
     <!-- custom-chart js -->
-    <script src="/static/assets/js/pages/dashboard-main.js"></script>
+    <script src="{% static 'assets/js/pages/dashboard-main.js' %}"></script>
 
 {% endblock javascripts %}

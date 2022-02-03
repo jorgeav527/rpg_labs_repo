@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'labs.apps.LabsConfig',
     'tests_labs.apps.TestsLabsConfig',
+    'orders.apps.OrdersConfig',
     # Django widget tweaks
     'widget_tweaks',
     # Django htmx
