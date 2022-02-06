@@ -21,7 +21,11 @@ function reorderItems() {
             item.querySelector('[data-field="order"]').setAttribute('name', 'items-' + i + '-order')
             item.querySelector('[data-field="order"]').setAttribute('id', 'id_items-' + i + '-order')
 
+            item.querySelector('[data-field="characteristictestlab"]').setAttribute('name', 'items-' + i + '-characteristictestlab')
+            item.querySelector('[data-field="characteristictestlab"]').setAttribute('hx-target', '#id_items-' + i + '-test_lab')
+
             item.querySelector('[data-field="test_lab"]').setAttribute('name', 'items-' + i + '-test_lab')
+            item.querySelector('[data-field="test_lab"]').setAttribute('id', 'id_items-' + i + '-test_lab')
             item.querySelector('[data-field="test_lab"]').setAttribute('hx-target', '#id_items-' + i + '-price')
 
             item.querySelector('[data-field="quantity"]').setAttribute('name', 'items-' + i + '-quantity')
@@ -57,3 +61,6 @@ Array.from(document.querySelectorAll('.remove-row'))
             document.querySelector('#btn-close').style.display = 'inline-block'
         })
     })
+
+
+// id_items-0-test_lab

@@ -24,7 +24,7 @@ class CharacteristicTestLab(models.Model):
 
 class TestLab(models.Model):
     characteristic = models.ForeignKey(
-        CharacteristicTestLab, verbose_name='test caracteristic', null=True, blank=True, on_delete=models.CASCADE)
+        CharacteristicTestLab, verbose_name='test caracteristic', related_name='characteristics', null=True, blank=True, on_delete=models.CASCADE)
     name_test = models.CharField(max_length=254)
     basic_norm = models.CharField(max_length=254, blank=True, null=True)
     refer_norm = models.CharField(max_length=254, blank=True, null=True)

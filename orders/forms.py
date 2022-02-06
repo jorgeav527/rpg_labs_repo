@@ -1,7 +1,10 @@
 from django import forms
 from django.forms import inlineformset_factory
 
+from dynamic_forms import DynamicField, DynamicFormMixin
+
 from orders.models import Order, OrderItems
+from tests_labs.models import CharacteristicTestLab, TestLab
 
 
 class OrderForm(forms.ModelForm):
@@ -21,9 +24,10 @@ class OrderItemsForm(forms.ModelForm):
 
     class Meta:
         model = OrderItems
-        fields = ('order', 'id', 'test_lab',
+        fields = ('order', 'id', 'characteristictestlab', 'test_lab',
                   'quantity', 'price', 'sampling_by')
         labels = {
+            'characteristictestlab': 'Labfgf.',
             'test_lab': 'Ensayo',
             'quantity': 'Cantidad',
             'price': 'Precio',
@@ -36,11 +40,14 @@ class OrderItemsForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 
+        self.fields['id'].label = ''
+        self.fields['id'].widget = forms.HiddenInput()
+
         self.fields['order'].label = ''
         self.fields['order'].widget = forms.HiddenInput()
 
-        self.fields['id'].label = ''
-        self.fields['id'].widget = forms.HiddenInput()
+        # if not self.fields['id']:
+        #     self.fields['test_lab'].queryset = TestLab.objects.none()
 
         self.fields['price'].widget.attrs['step'] = 0.01
 

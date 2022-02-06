@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.db import models
 from django.forms import inlineformset_factory
 
-from tests_labs.models import TestLab
+from tests_labs.models import TestLab, CharacteristicTestLab
 
 IGV = Decimal(os.environ.get('IGV')).quantize(Decimal('0.01'))
 
@@ -56,9 +56,11 @@ class Order(models.Model):
 class OrderItems(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL,
                               verbose_name='order', related_name='order_items', null=True, blank=True)
+    characteristictestlab = models.ForeignKey(CharacteristicTestLab, on_delete=models.SET_NULL,
+                                              verbose_name='characteristictestlab', related_name='characteristictestlab_items', null=True, blank=True)
     test_lab = models.ForeignKey(TestLab, on_delete=models.SET_NULL,
                                  verbose_name='test lab', related_name='test_lab_items', null=True, blank=True)
-    quantity = models.PositiveSmallIntegerField()
+    quantity = models.PositiveSmallIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     sampling_by = models.BooleanField(null=True)
 

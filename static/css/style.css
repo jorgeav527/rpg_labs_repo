@@ -7,4 +7,7 @@
     user-select: none;
 }
 
-
+/* tr.htmx-swapping td a {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+} */

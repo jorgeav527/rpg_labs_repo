@@ -93,8 +93,30 @@ def test_lab_price(request):
     # print('running item0', item[0])
     # print('running test_lab_pk', test_lab_pk)
     # print('running test_lab', test_lab)
-    context = {'test_lab': test_lab, 'item': item[0]}
+    context = {
+        'test_lab': test_lab,
+        'item': item[0]
+    }
     return render(request, 'orders/test_lab_price.html', context)
+
+
+def characteristic_test_lab(request):
+    url = request.get_full_path()
+    # print('running url', url)
+    # print('running url split', url.split('-'))
+    item = url.split('-')[1]
+    # print('running item', item, item[0])
+    # print('running list', list(request.GET.values()))
+    characteristictestlab_pk = list(request.GET.values())[0]
+    test_lab_qs = TestLab.objects.filter(
+        characteristic=characteristictestlab_pk)
+    # print('running characteristictestlab_pk', characteristictestlab_pk)
+    # print('running test_lab_qs', test_lab_qs)
+    context = {
+        'test_lab_qs': test_lab_qs,
+        'item': item[0]
+    }
+    return render(request, 'orders/characteristictestlab_test_lab.html', context)
 
 
 def delete_order_item_row(request, order_item_id):

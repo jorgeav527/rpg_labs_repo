@@ -8,7 +8,7 @@
         <a href="{% url 'orders:update_order' order.id %}">
             <button type="button" class="btn btn-outline-warning"><i class="feather icon-alert-triangle f-16 mr-2"></i>Editar</button>
         </a>
-        <a href=""
+        <a href="" class=""
             hx-delete="{% url 'orders:delete_order_hx' order.id %}"
             hx-confirm="Confirma eliminar la orden Nª {{ forloop.revcounter }} con {{ order.order_items.count }} ensayos"
             hx-target="closest tr"
