@@ -1,0 +1,20 @@
+<div id="id_main-project-client" class="form-group col-md-2">
+    <div class="form-group">
+        <label for="">Projecto</label>
+        <select name="main-project" class="form-control" id="id_main-project">
+            <option value="" selected="">---------</option>
+            {% for project in project_qs %}
+            <option value="{{ project.pk }}">{{ project.name|safe }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="">Cliente</label>
+        <select name="main-client" class="form-control" id="id_main-client">
+            <option value="" selected="">---------</option>
+            {% for clientprofile in clientprofile_qs %}
+            <option value="{{ clientprofile.pk }}">DNI:{{ clientprofile.user.dni|safe }} {{ clientprofile.user.first_name|title|safe }} {{ clientprofile.user.last_name|title|safe }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

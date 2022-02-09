@@ -5,6 +5,8 @@ from django.contrib import messages
 from tests_labs.models import TestLab
 
 from orders.models import Order, OrderItems
+from projects.models import Project
+from members.models import ClientProfile
 from orders.forms import OrderForm, OrderItemsForm, OrderItemsFormset
 
 
@@ -26,6 +28,8 @@ def create_order(request):
     formset_order_items = OrderItemsFormset(
         request.POST or None, instance=order_instance, prefix='items')
     if request.method == 'POST':
+        # print('running:', form_order.errors.values(),
+        #       formset_order_items.is_valid())
         if form_order.is_valid() and formset_order_items.is_valid():
             form_order.save()
             formset_order_items.save()
@@ -123,3 +127,19 @@ def delete_order_item_row(request, order_item_id):
     order_item = OrderItems.objects.get(pk=order_item_id)
     order_item.delete()
     return HttpResponse('')
+
+
+def company_project_client(request):
+    company_pk = list(request.GET.values())[0]
+    project_qs = Project.objects.filter(
+        company=company_pk)
+    clientprofile_qs = ClientProfile.objects.filter(
+        company=company_pk)
+    # print('running company_pk', company_pk)
+    # print('running project_qs', project_qs)
+    # print('running clientprofile_qs', clientprofile_qs)
+    context = {
+        'project_qs': project_qs,
+        'clientprofile_qs': clientprofile_qs,
+    }
+    return render(request, 'orders/company_project_client.html', context)

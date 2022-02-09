@@ -1,6 +1,6 @@
 from django.urls import path
 
-from orders.views import list_order, create_order, update_order, delete_order, create_order_item_row, characteristic_test_lab, test_lab_price, delete_order_item_row
+from orders.views import list_order, create_order, update_order, delete_order, create_order_item_row, characteristic_test_lab, test_lab_price, delete_order_item_row, company_project_client
 
 app_name = 'orders'
 
@@ -18,4 +18,6 @@ urlpatterns = [
     path('characteristic/test_lab/', characteristic_test_lab,
          name='characteristic_test_lab_hx'),
     path('test_lab/price/', test_lab_price, name='test_lab_price_hx'),
+    path('company/project/client/', company_project_client,
+         name='company_project_client_hx')
 ]

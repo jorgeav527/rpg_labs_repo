@@ -7,6 +7,9 @@ from django.db import models
 from django.forms import inlineformset_factory
 
 from tests_labs.models import TestLab, CharacteristicTestLab
+from companies.models import Company
+from projects.models import Project
+from members.models import ClientProfile
 
 IGV = Decimal(os.environ.get('IGV')).quantize(Decimal('0.01'))
 
@@ -14,7 +17,17 @@ IGV = Decimal(os.environ.get('IGV')).quantize(Decimal('0.01'))
 class Order(models.Model):
     number_request = models.CharField(
         max_length=20, default='codigo')
+    company = models.ForeignKey(
+        Company, on_delete=models.SET_NULL, verbose_name='company_order', null=True, blank=True)
+    project = models.ForeignKey(
+        Project, on_delete=models.SET_NULL, verbose_name='project_order', null=True, blank=True)
+    client = models.ForeignKey(
+        ClientProfile, on_delete=models.SET_NULL, verbose_name='client_order', null=True, blank=True)
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    cost_quatotion = models.BooleanField(default=True)
+    requirement = models.BooleanField(default=False)
+    execution_order = models.BooleanField(default=False)
+    liquidation = models.BooleanField(default=False)
     created = models.DateTimeField(
         verbose_name='created at', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='updated at', auto_now=True)
@@ -54,7 +67,7 @@ class Order(models.Model):
 
 
 class OrderItems(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL,
+    order = models.ForeignKey(Order, on_delete=models.CASCADE,
                               verbose_name='order', related_name='order_items', null=True, blank=True)
     characteristictestlab = models.ForeignKey(CharacteristicTestLab, on_delete=models.SET_NULL,
                                               verbose_name='characteristictestlab', related_name='characteristictestlab_items', null=True, blank=True)
@@ -72,3 +85,13 @@ class OrderItems(models.Model):
 
     def get_partial_igv(self):
         return Decimal(self.price * self.quantity).quantize(Decimal('0.01'), rounding=ROUND_UP)
+
+
+# class OrderState(models.Model):
+#     to_order = models.ForeignKey(
+#         Order, on_delete=models.CASCADE, related_name='to_order')
+#     from_order = models.ForeignKey(
+#         Order, on_delete=models.CASCADE, related_name='from_order')
+
+#     def __str__(self):
+#         return '(%s): (%s) - (%s)' % (self.pk, self.to_order, self.from_order)

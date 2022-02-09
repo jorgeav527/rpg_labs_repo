@@ -4,16 +4,25 @@ from django.forms import inlineformset_factory
 from dynamic_forms import DynamicField, DynamicFormMixin
 
 from orders.models import Order, OrderItems
+from companies.models import Company
+from projects.models import Project
 from tests_labs.models import CharacteristicTestLab, TestLab
 
 
 class OrderForm(forms.ModelForm):
-
     class Meta:
         model = Order
-        fields = ('discount',)
+        fields = ('company', 'project', 'client', 'discount', 'cost_quatotion', 'requirement',
+                  'execution_order', 'liquidation')
         labels = {
+            'company': 'Compañía',
+            'project': 'Projecto',
+            'client': 'Cliente',
             'discount': 'Descuento',
+            'cost_quatotion': 'Cotización',
+            'requirement': 'Requerimiento',
+            'execution_order': 'Orden de ejecucón',
+            'liquidation': 'Liquidación',
         }
 
 
@@ -27,7 +36,7 @@ class OrderItemsForm(forms.ModelForm):
         fields = ('order', 'id', 'characteristictestlab', 'test_lab',
                   'quantity', 'price', 'sampling_by')
         labels = {
-            'characteristictestlab': 'Labfgf.',
+            'characteristictestlab': 'Lab.',
             'test_lab': 'Ensayo',
             'quantity': 'Cantidad',
             'price': 'Precio',
