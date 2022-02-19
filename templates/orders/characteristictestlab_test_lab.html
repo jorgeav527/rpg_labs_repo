@@ -1,8 +1,0 @@
-<select name="items-{{ item }}-test_lab" class="form-control" data-field="test_lab" hx-swap="outerHTML"
-    hx-target="#id_items-{{ item }}-price" hx-get="/orders/test_lab/price/" id="id_items-{{ item }}-test_lab">
-  
-  <option value="" selected="">---------</option>
-  {% for test_lab in test_lab_qs %}
-  <option value="{{ test_lab.pk|safe }}">{{ test_lab.name_test|safe }}</option>
-  {% endfor %}
-</select>
