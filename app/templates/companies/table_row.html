@@ -1,0 +1,43 @@
+<tr id="">
+    <td>{{ company.id }}-{{ forloop.revcounter }}</td>
+    <td>{{ company.social_reason }}
+        <div class="progress mt-1" style="height:4px;">
+            <div class="progress-bar bg-warning rounded" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </td>
+    <td>{{ company.address }}</td>
+    <td>{{ company.ruc }}</td>
+    <td>
+        <a href="{% url 'members:create_signup_client' company.id %}">
+            <button type="button" class="btn  btn-secondary"><i class="feather icon-plus-circle f-16 mr-2"></i><span class="badge badge-light">{{ company.clientprofile_set.count }}</span></button>
+        </a>
+    </td>
+    <td>
+        <a href="{% url 'projects:create_project' company.id %}">
+            <button type="button" class="btn  btn-secondary"><i class="feather icon-plus-circle f-16 mr-2"></i><span class="badge badge-light">{{ company.project_set.count }}</span></button>
+        </a>
+    </td>
+    <td>
+        <a href="{% url 'companies:update_company' company.id %}">
+            <button type="button" class="btn btn-outline-warning"><i class="feather icon-alert-triangle f-16 mr-2"></i>Editar</button>
+        </a>
+        <a href=""
+            hx-delete="{% url 'companies:delete_company_hx' company.id %}"
+            hx-confirm="Confirma eliminar la enpresa {{ company.social_reason }} con el RUC Nº{{ company.ruc }}"
+            hx-target="#companyTable"
+            hx-swap="innerHTML swap:500ms">
+            <button type="button" class="btn btn-outline-danger">
+                <i class="feather icon-trash-2 f-16 mr-2"></i>Borrar
+            </button>
+        </a>
+        <a href=""
+            type="button" class="btn btn-outline-info"
+            data-toggle="modal"
+            data-target="#detailModalCompany"
+            hx-get="{% url 'companies:detail_company_hx' company.id %}"
+            hx-target="#detailCompanyContent"
+            hx-swap="innerHTML">
+            <i class="feather icon-info f-16 mr-2"></i>Info
+        </a>
+    </td>
+</tr>

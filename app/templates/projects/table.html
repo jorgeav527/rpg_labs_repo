@@ -1,0 +1,13 @@
+<thead>
+    <tr>
+        <th><span>Nº<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Proyecto<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Ubicación<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Pertenece a la Compañia<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+    </tr>
+</thead>
+<tbody id="">
+    {% for project in list_projects %}
+    {% include 'projects/table_row.html' %}
+    {% endfor %}
+</tbody>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    {% include 'includes/head.html' %}
+
+    <title>
+        RPG labs | {% block title_head %}{% endblock %} | SAC
+    </title>
+    
+    <!-- Specific CSS goes HERE -->
+    {% block stylesheets %}{% endblock stylesheets %}    
+
+</head>
+<body class="">
+
+	<!-- [ Pre-loader ] start -->
+	<div class="loader-bg">
+		<div class="loader-track">
+			<div class="loader-fill"></div>
+		</div>
+	</div>
+    <!-- [ Pre-loader ] End -->
+
+    {% include 'includes/navigation.html' %}
+
+    {% include 'includes/header.html' %}
+
+    {% block content %}{% endblock content %}
+
+    {% include 'includes/scripts.html' %}
+
+    <!-- Specific Page JS goes HERE  -->
+    {% block javascripts %}{% endblock javascripts %}
+
+</body>
+</html>

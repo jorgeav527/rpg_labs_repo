@@ -1,0 +1,50 @@
+<tr id="">
+    <td>{{ order.id }}-{{ forloop.revcounter }}</td>
+    <td>{{ order.number_request }}</td>
+    <td>{{ order.discount }}</td>
+    <td>{{ order.created }}</td>
+    <td>{{ order.updated }}</td>
+    <td>
+        <a href="{% url 'orders:update_order' order.id %}">
+            <button type="button" class="btn btn-outline-warning"><i class="feather icon-alert-triangle f-16 mr-2"></i>Editar</button>
+        </a>
+        <a href="" class=""
+            hx-delete="{% url 'orders:delete_order_hx' order.id %}"
+            hx-confirm="Confirma eliminar la orden Nª {{ forloop.revcounter }} con {{ order.order_items.count }} ensayos"
+            hx-target="closest tr"
+            hx-swap="outerHTML swap:500ms">
+            <button type="button" class="btn btn-outline-danger">
+                <i class="feather icon-trash-2 f-16 mr-2"></i>Borrar
+            </button>
+        </a>
+        {% if order.cost_quatotion %}
+        <a href="{% url 'orders:pdf_cost_quatotion_order' order.id %}">
+            <button type="button" class="btn btn-outline-secondary"><i class="feather icon-file-text f-16 mr-2"></i>Cotización</button>
+        </a>
+        {% endif %}
+        {% if order.requirement %}
+        <a href="{% url 'orders:pdf_requirement_order' order.id %}">
+            <button type="button" class="btn btn-outline-secondary"><i class="feather icon-file-text f-16 mr-2"></i>Requerimiento</button>
+        </a>
+        {% endif %}
+        {% if order.execution_order %}
+        <a href="{% url 'orders:pdf_execution_order' order.id %}">
+            <button type="button" class="btn btn-outline-secondary"><i class="feather icon-file-text f-16 mr-2"></i>Orden de Ejecución</button>
+        </a>
+        {% endif %}
+        {% if order.liquidation %}
+        <a href="{% url 'orders:pdf_liquidation_order' order.id %}">
+            <button type="button" class="btn btn-outline-secondary"><i class="feather icon-file-text f-16 mr-2"></i>Liquidación</button>
+        </a>
+        {% endif %}
+        <a href=""
+            type="button" class="btn btn-outline-info"
+            data-toggle="modal"
+            data-target="#detailModalCompany"
+            hx-get="{ url 'companies:detail_company_hx' company.id %}"
+            hx-target="#detailCompanyContent"
+            hx-swap="innerHTML">
+            <i class="feather icon-info f-16 mr-2"></i>Info
+        </a>
+    </td>
+</tr>

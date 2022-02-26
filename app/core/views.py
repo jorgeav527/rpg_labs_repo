@@ -2,46 +2,66 @@ from django.shortcuts import render
 from django.template.response import TemplateResponse
 from datetime import date
 
+from core import utils
+
+
+def index(request):
+    title_head = "index"
+    title = "index"
+    section = "index"
+    context = {
+        "title": title,
+        "section": section,
+        "title_head": title_head,
+    }
+    return render(request, "core/index.html", context)
+
 
 def home(request):
-    title_page = 'home'
-    today = date.today()
+    title_head = "home"
+    title = "home"
+    section = "bienvenido"
+    today = utils.generate_time_str_num()
     context = {
-        'title_page': title_page,
-        'today': today,
+        "title": title,
+        "section": section,
+        "title_head": title_head,
+        "today": today,
     }
-    if today.weekday() == 0:
-        context['special_message'] = 'Happy Monday'
-    return render(request, 'core/index.html', context)
+    return render(request, "core/home.html", context)
 
 
-def blog_view(request):
-    title_page = 'change this'
+def blog(request):
+    title_head = "blog"
+    title = "blog"
+    section = "blog"
     context = {
-        "title_page": title_page,
+        "title": title,
+        "section": section,
+        "title_head": title_head,
     }
-    return render(request, 'core/blog.html', context)
+    return render(request, "core/blog.html", context)
 
 
 def enrolling(request):
-    title = 'registro de compañias, clientes y projectos'
-    section = 'cotización'
-    title_page = 'registro'
+    title = "cotización"
+    section = "registro de compañias, clientes y proyectos"
+    title_head = "registro"
     context = {
-        'title': title,
-        'section': section,
-        'title_page': title_page,
+        "title": title,
+        "section": section,
+        "title_head": title_head,
     }
-    return render(request, 'core/enrolling.html', context)
+    return render(request, "core/enrolling.html", context)
 
 
 def requirement(request):
-    title = 'registro de requerimientos'
-    section = 'cotización'
-    title_page = 'requerimiento'
+    title = "cotización"
+    section = "registro de requerimientos"
+    title_head = "requerimiento"
     context = {
-        'title': title,
-        'section': section,
-        'title_page': title_page,
+        "title": title,
+        "section": section,
+        "title_head": title_head,
     }
-    return render(request, 'core/requirement.html', context)
+    return render(request, "core/requirement.html", context)

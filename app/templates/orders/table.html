@@ -1,0 +1,15 @@
+<thead>
+    <tr>
+        <th><span>Nº<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Nº de orden<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Descuento<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Creado<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Actualizado<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+        <th><span>Acciones<a class="help" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"><i class="feather icon-help-circle f-16 ml-2"></i></a></span></th>
+    </tr>
+</thead>
+<tbody>
+    {% for order in list_orders %}
+    {% include 'orders/table_row.html' %}
+    {% endfor %}
+</tbody>

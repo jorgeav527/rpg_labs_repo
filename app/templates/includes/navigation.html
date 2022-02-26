@@ -1,0 +1,122 @@
+<!-- [ navigation menu ] start -->
+<nav class="pcoded-navbar menupos-fixed menu-dark ">
+	<div class="navbar-wrapper  ">
+		<div class="navbar-content scroll-div " >
+			<ul class="nav pcoded-inner-navbar ">
+				<li class="nav-item pcoded-menu-caption">
+					<label>Indice</label>
+				</li>
+				<li class="nav-item">
+				    <a href="/" class="nav-link ">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+				</li>
+				<li class="nav-item pcoded-hasmenu">
+				    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-layout"></i></span><span class="pcoded-mtext">Páginas</span></a>
+				    <ul class="pcoded-submenu">
+				        <li><a href="#!">Nosotros</a></li>
+				        <li><a href="#!">Laboratorios</a></li>
+				        <li><a href="#!">Acerca</a></li>
+				        <li><a href="#!">Contactenos</a></li>
+				    </ul>
+				</li>
+				<li class="nav-item pcoded-menu-caption">
+					<label>Laboratorios</label>
+				</li>
+				<li class="nav-item pcoded-hasmenu">
+					<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">MS</span></a>
+					<ul class="pcoded-submenu">
+						<li><a href="#!">Ensayos</a></li>
+						<li><a href="#!">Tarifas</a></li>
+					</ul>
+				</li>
+				<li class="nav-item pcoded-hasmenu">
+					<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">EMS</span></a>
+					<ul class="pcoded-submenu">
+						<li><a href="#!">Ensayos</a></li>
+						<li><a href="#!">Tarifas</a></li>
+					</ul>
+				</li>
+				<li class="nav-item pcoded-hasmenu">
+					<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">AG</span></a>
+					<ul class="pcoded-submenu">
+						<li><a href="#!">Ensayos</a></li>
+						<li><a href="#!">Tarifas</a></li>
+					</ul>
+				</li>
+				<li class="nav-item pcoded-hasmenu">
+					<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">CCP</span></a>
+					<ul class="pcoded-submenu">
+						<li><a href="#!">Ensayos</a></li>
+						<li><a href="#!">Tarifas</a></li>
+					</ul>
+				</li>
+				<li class="nav-item pcoded-hasmenu">
+					<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">Pav</span></a>
+					<ul class="pcoded-submenu">
+						<li><a href="#!">Ensayos</a></li>
+						<li><a href="#!">Tarifas</a></li>
+					</ul>
+				</li>
+				<li class="nav-item pcoded-hasmenu">
+					<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-box"></i></span><span class="pcoded-mtext">ERTV</span></a>
+					<ul class="pcoded-submenu">
+						<li><a href="#!">Ensayos</a></li>
+						<li><a href="#!">Button</a></li>
+					</ul>
+				</li>
+				<li class="nav-item pcoded-menu-caption">
+				    <label>Cotización</label>
+				</li>
+				<li class="nav-item">
+				    <a href="{% url 'core:enrolling' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Registro</span></a>
+				</li>
+				<li class="nav-item">
+				    <a href="{% url 'core:requirement' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Requerimiento</span></a>
+				</li>
+				<li class="nav-item pcoded-menu-caption">
+					<label>Reportes</label>
+				</li>
+				<li class="nav-item">
+				    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span><span class="pcoded-mtext">Charts</span></a>
+				</li>
+				<li class="nav-item">
+				    <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Mapas</span></a>
+				</li>
+				<li class="nav-item">
+					<a href="#!" class="nav-link "><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a>
+				</li>
+				<li class="nav-item pcoded-menu-caption">
+					<label>Acciones</label>
+				</li>
+				{% if user.is_authenticated %}
+				<li class="nav-item">
+				    <a href="{% url 'members:logout' %}" 
+					   class="nav-link "><span class="pcoded-micon">
+					   <i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Salir</span></a>
+				</li>
+				{% else %}
+				<li class="nav-item">
+				    <a href="{% url 'members:signup_admin' %}" 
+					   class="nav-link "><span class="pcoded-micon">
+					   <i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Registro Admin</span>
+					</a>
+				</li>
+				<li class="nav-item">
+				    <a href="{% url 'members:login' %}" 
+					   class="nav-link "><span class="pcoded-micon">
+					   <i class="feather icon-log-out"></i></span><span class="pcoded-mtext">Ingresar</span>
+					</a>
+				</li>
+				{% endif %}
+				<li class="nav-item">
+				    <a href="#!" 
+					   class="nav-link "><span class="pcoded-micon">
+					   <i class="feather icon-info"></i></span><span class="pcoded-mtext">Soporte</span>
+					</a>
+				</li>
+			</ul>		
+		</div>
+	</div>
+</nav>
+<!-- [ navigation menu ] end -->

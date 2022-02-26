@@ -1,12 +1,13 @@
 from django.urls import path
 
-from .views import home, blog_view, enrolling, requirement
+from core import views
 
-app_name = 'core'
+app_name = "core"
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('blog/', blog_view, name='blog'),
-    path('registro/', enrolling, name='enrolling'),
-    path('requerimiento/', requirement, name='requirement'),
+    path("", views.home, name="home"),
+    path("index/", views.index, name="index"),
+    path("blog/", views.blog, name="blog"),
+    path("registro/", views.enrolling, name="enrolling"),
+    path("requerimiento/", views.requirement, name="requirement"),
 ]
