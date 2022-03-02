@@ -20,6 +20,7 @@ class OrderForm(forms.ModelForm):
             "requirement",
             "execution_order",
             "liquidation",
+            "type_service",
         )
         labels = {
             "company": "Compañía",
@@ -30,6 +31,7 @@ class OrderForm(forms.ModelForm):
             "requirement": "Requerimiento",
             "execution_order": "Orden de ejecucón",
             "liquidation": "Liquidación",
+            "type_service": "Tipo de Servicio",
         }
 
     # def __init__(self, *args, **kwargs):

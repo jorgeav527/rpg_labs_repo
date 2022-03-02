@@ -7,6 +7,7 @@
     </td>
     <td>{{ company.address }}</td>
     <td>{{ company.ruc }}</td>
+    <td>{{ company.get_type_company_display }}</td>
     <td>
         <a href="{% url 'members:create_signup_client' company.id %}">
             <button type="button" class="btn  btn-secondary"><i class="feather icon-plus-circle f-16 mr-2"></i><span class="badge badge-light">{{ company.clientprofile_set.count }}</span></button>

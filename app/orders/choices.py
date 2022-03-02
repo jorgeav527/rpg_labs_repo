@@ -1,7 +1,7 @@
-# from django.db import models
+from django.db import models
 
-# class States(models.TextChoices):
-#     COST_QUOTATION = 'COST_QUOTATION', 'Cotización'
-#     REQUIREMENT = 'REQUIREMENT', 'Requerimiento'
-#     EXECUTION_ORDER = 'EXECUTION_ORDER', 'Orden de Ejecución'
-#     LIQUIDATION = 'LIQUIDATION', 'Liquidación'
+
+class TypeService(models.TextChoices):
+    TEST = "TEST", "Ensayo"
+    SOIL_MECHANICS_STUDY = "SOIL_MECHANICS_STUDY", "Estudio de Mecánica de Suelos"
+    GEOTECHNICS_STYDY = "GEOTECHNICS_STYDY", "Estudio de Geotécnico"

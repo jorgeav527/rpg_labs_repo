@@ -1,38 +1,58 @@
-<!DOCTYPE html>
+{% load static %}
+
+<!doctype html>
 <html lang="en">
 
 <head>
-    
-    {% include 'includes/head.html' %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @page {
+            size: a4 portrait;
+            @frame header_frame {
+                -pdf-frame-content: header_content;
+                left: 50pt; width: 512pt; top: 50pt; height: 43pt;
+                {% comment %} -pdf-frame-border: 1; {% endcomment %}
+            }
+            @frame content_frame {
+                left: 50pt; width: 512pt; top: 120pt; height: 630pt;
+                {% comment %} -pdf-frame-border: 1; {% endcomment %}
+            }
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 26pt;
+                {% comment %} -pdf-frame-border: 1; {% endcomment %}
+            }
+        }
+    </style>
+    <style type="text/css">
+        table, th, td {
+            border: 0.2px solid black;
+        }
+        th, td {
+            padding-top: 2px;
+            padding-left: 2px;
+        }
+        th {
+            background-color:#92D050;
+        }
+        p {
+            font-weight: bold;
+        }
+        span {
+            font-weight: normal;
+        }
 
+    </style>
     <title>
-        RPG labs | {% block title %}{% endblock %} | SAC
+        RPG labs | {% block title_head %}{% endblock %} | SAC
     </title>
-    
-    <!-- Specific CSS goes HERE -->
-    {% block stylesheets %}{% endblock stylesheets %}    
-
 </head>
-<body class="">
-
-	<!-- [ Pre-loader ] start -->
-	<div class="loader-bg">
-		<div class="loader-track">
-			<div class="loader-fill"></div>
-		</div>
-	</div>
-    <!-- [ Pre-loader ] End -->
-    
-    {% include 'includes/sidebar.html' %}
-    
-    {% include 'includes/navigation.html' %}
-
-    {% block content %}{% endblock content %}
-
-    {% include 'includes/scripts.html' %}
-
-    <!-- Specific Page JS goes HERE  -->
-    {% block javascripts %}{% endblock javascripts %}
-
+<body>
+    {% include 'includes/header-pdf.html' %}
+    {% block content_pdf %}{% endblock %}
+    {% include 'includes/footer-pdf.html' %}    
 </body>
 </html>

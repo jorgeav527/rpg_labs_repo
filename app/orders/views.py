@@ -1,3 +1,6 @@
+import os
+from django.conf import settings
+from django.contrib.staticfiles import finders
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -10,6 +13,35 @@ from orders.models import Order, OrderItems
 from projects.models import Project
 from members.models import ClientProfile
 from orders.forms import OrderForm, OrderItemsForm, OrderItemsFormset
+
+
+def link_callback(uri, rel):
+    """
+    Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+    resources
+    """
+    result = finders.find(uri)
+    if result:
+        if not isinstance(result, (list, tuple)):
+            result = [result]
+        result = list(os.path.realpath(path) for path in result)
+        path = result[0]
+    else:
+        sUrl = settings.STATIC_URL  # Typically /static/
+        sRoot = settings.STATIC_ROOT  # Typically /home/userX/project_static/
+        mUrl = settings.MEDIA_URL  # Typically /media/
+        mRoot = settings.MEDIA_ROOT  # Typically /home/userX/project_static/media
+        if uri.startswith(mUrl):
+            path = os.path.join(mRoot, uri.replace(mUrl, ""))
+        elif uri.startswith(sUrl):
+            path = os.path.join(sRoot, uri.replace(sUrl, ""))
+        else:
+            return uri
+
+    # make sure that file exists
+    if not os.path.isfile(path):
+        raise Exception("media URI must start with %s or %s" % (sUrl, mUrl))
+    return path
 
 
 def list_order(request):
@@ -139,15 +171,26 @@ def company_project_client(request):
 
 
 def pdf_cost_quatotion_order(request, order_id):
+    order_obj = Order.objects.get(pk=order_id)
+    title_head = f"cotización Nº {order_obj.number_request}"
+    title_header = "laboratorio de mecánica de suelos, concreto y mezclas asfálticas"
+    code_header = "RPG-FO-GT-11"
+    version_header = "01"
+
     template_path = "orders/pdf_cost_quatotion.html"
-    context = {"myvar": "la cotización"}
+    context = {
+        "order_obj": order_obj,
+        "title_head": title_head,
+        "title_header": title_header,
+        "code_header": code_header,
+        "version_header": version_header,
+    }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="report.pdf"'
     # find the template and render it.
     template = get_template(template_path)
     html = template.render(context)
-
     # create a pdf
     pisa_status = pisa.CreatePDF(html, dest=response)
     # if error then show some funy view
@@ -157,8 +200,20 @@ def pdf_cost_quatotion_order(request, order_id):
 
 
 def pdf_requirement_order(request, order_id):
+    order_obj = Order.objects.get(pk=order_id)
+    title_head = f"requerimiento Nº {order_obj.number_request}"
+    title_header = "determinación y revisión de requisitos de los servicios de ensayo, estudios geotécnicos y estudios de mecánica de suelos"
+    code_header = "RPG-FO-GT-10"
+    version_header = "01"
+
     template_path = "orders/pdf_requirement.html"
-    context = {"myvar": "el requerimiento"}
+    context = {
+        "order_obj": order_obj,
+        "title_head": title_head,
+        "title_header": title_header,
+        "code_header": code_header,
+        "version_header": version_header,
+    }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="report.pdf"'

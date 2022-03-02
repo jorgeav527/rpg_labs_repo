@@ -4,23 +4,23 @@ from .models import Company
 
 
 class CompanyForm(forms.ModelForm):
-
     class Meta:
         model = Company
-        fields = ['social_reason', 'address', 'ruc']
+        fields = ["social_reason", "address", "ruc", "type_company"]
         labels = {
-            'social_reason': 'Razón Social',
-            'address': 'Dirección',
-            'ruc': 'RUC',
+            "social_reason": "Razón Social",
+            "address": "Dirección",
+            "ruc": "RUC",
+            "type_company": "Tipo de Cliente",
         }
         help_texts = {
-            'social_reason': 'Ingresa el nombre de la empresa.',
-            'address': 'Ingresa la Dirección fisica de la empresa.',
-            'ruc': 'Ingresa el RUC de la empresa.',
+            "social_reason": "Ingresa el nombre de la empresa.",
+            "address": "Ingresa la Dirección fisica de la empresa.",
+            "ruc": "Ingresa el RUC de la empresa.",
         }
         error_messages = {
-            'ruc': {
-                'unique': 'El RUC esta en uso.',
+            "ruc": {
+                "unique": "El RUC esta en uso.",
             }
         }
 

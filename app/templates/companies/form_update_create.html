@@ -40,6 +40,16 @@
             <p class="form-text text-danger">{{ error }}</p>
             {% endfor %}
         </div>
+        <div class="form-group">
+            <label for="">{{ form_company.type_company.label }}</label>
+            {% render_field form_company.type_company class="form-control" %}
+            {% if form_company.type_company.help_text %}
+            <small class="form-text text-muted">{{ form_company.type_company.help_text }}</small>
+            {% endif %}
+            {% for error in form_company.type_company.errors %}
+            <p class="form-text text-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
 {% endblock %}
