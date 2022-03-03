@@ -6,124 +6,177 @@
 <!-- HTML PDF Content -->
 <table width="100%">
     <tr>
+        <th align="center">
+            DATOS DEL SOLICITANTE
+        </th>
+    </tr>
+    <tr>
         <td>
-            <p>OBRA/PROYECTO: <span>{{ order_obj.project.name }}</span></p>
+            <p>TIPO DE CLIENTE: <span>{{ order_obj.company.get_type_company_display }}</span></p>
         </td>
     </tr>
     <tr>
         <td>
-            <p>SOLICITANTE/PROPIETARIO: <span>{{ order_obj.company.social_reason|upper }}</span></p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <p>UBICACIÓN: <span>{{ order_obj.project.location }}</span></p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <p>FECHA DE EMISIÓN: <span>{{ order_obj.updated|date:"d/m/Y" }}</span></p>
-        </td>
-    </tr>
-</table>
-<table style="width:100%">
-    <tr>
-        <td rowspan="3" width="12%">
-            <p>FACTURACIÓN</p>
-        </td>
-        <td width="53%">
-            <p>RAZÓN SOCIAL: <span>{{ order_obj.company.social_reason|upper }}</span></p>
-        </td>
-        <td width="35%">
-            <p>CONTACTO: <span>{{ order_obj.client.user.profession|title }} {{ order_obj.client.user.get_full_name|title }}</span></p>
+            <p>EMPRESA O INSTITUCIÓN: <span>{{ order_obj.company.social_reason|upper }}</span></p>
         </td>
     </tr>
     <tr>
         <td>
             <p>DIRECCIÓN: <span>{{ order_obj.company.address|upper }}</span></p>
         </td>
+    </tr>
+    <tr>
         <td>
-            <p>E MAIL: <span>{{ order_obj.client.user.email }}</span></p>
+            <p>CONTACTO: <span>{{ order_obj.client.user.profession|title }} {{ order_obj.client.user.get_full_name|title }}</span></p>
+        </td>
+    </tr>
+    <table>
+        <tr>
+            <td width="65%">
+                <p>CORREO ELECTRO: <span>{{ order_obj.client.user.email }}</span></p>
+            </td>
+            <td width="35%">
+                <p>CELULAR: <span>{{ order_obj.client.user.cell_phone }}</span></p>
+            </td>
+        </tr>
+    </table>
+</table>
+<table>
+    <tr>
+        <th align="center">
+            REQUISITOS DEL SERVICIO
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <p>TIPO DE SERVICIO: <span>{{ order_obj.get_type_service_display }}</span></p>
         </td>
     </tr>
     <tr>
         <td>
-            <p>RUC: <span>{{ order_obj.company.ruc }}</span></p>
-        </td>
-        <td>
-            <p>CELULAR: <span>{{ order_obj.client.user.cell_phone }}</span></p>
+            <p>TITULO DEL PROYECTO: <span>{{ order_obj.project.name|title }}</span></p>
         </td>
     </tr>
 </table>
 <br>
 <table style="width:100%">
     <tr>
+        <th colspan="4">REQUISITOS DE LOS ENSAYOS</th>
+    </tr>
+    <tr>
         <th width="5%">ITEM</th>
-        <th width="7%">MATRIZ</th>
-        <th width="46%">DESCRIPCIÓN</th>
-        <th width="7%">UNIDAD</th>
-        <th width="9%">CANTIDAD</th>
-        <th width="8%">P.U.</th>
-        <th width="8%">PARCIAL INC. IGV</th>
-        <th width="10%">MUESTREO GRUPO RPG</th>
+        <th width="15%">DESCRIPCIÓN DE LA MUESTRA</th>
+        <th width="60%">ENSAYOS SOLICITADOS</th>
+        <th width="20%">CONDICIONES PARTICULARES PARA REALIZAR ANÁLISIS Y ENSAYOS</th>
     </tr>
     {% for order_item in order_obj.order_items.all %}
     <tr>
         <td align="center">{{ forloop.counter }}</td>
-        <td align="center">{{ order_item.characteristictestlab.matrix }}</td>
-        <td>{{ order_item.test_lab.name_test }}. {{ order_item.test_lab.basic_norm }}</td>
-        <td align="center">{{ order_item.test_lab.unit }}</td>
-        <td align="center">{{ order_item.quantity }}</td>
-        <td align="center">S/.{{ order_item.price }}</td>
-        <td align="center">S/.{{ order_item.get_partial_igv }}</td>
-        <td align="center">{{ order_item.sampling_by }}</td>
+        {% if order_item.sampling_by is True %}
+        <td align="center">Muestreo realizado por RPG</td>
+        {% elif order_item.sampling_by is False %}
+        <td align="center">Proporcionada por el Cliente</td>
+        {% elif order_item.sampling_by is None %}
+        <td align="center">N/A</td>
+        {% endif %}
+        <td>{{ order_item.characteristictestlab.matrix }} - {{ order_item.test_lab.name_test }}. {{ order_item.test_lab.basic_norm }}</td>
+        <td align="center">-</td>
     </tr>
     {% endfor %}
 </table>
 <br>
-<table style="width:100%">
+<table>
     <tr>
-        <td rowspan="5" width="58%">
-            <p>OBSERVACIONES: <span>{% lorem 40 w %}</span></p>
-        </td>
-        <th width="24%" align="center">
-            <p>Parcial: </p>
+        <th align="center">
+            INFORMACIÓN RELACIONADA CON EL MUESTREO
         </th>
-        <td width="12%" align="center">
-            <span>S/.{{ order_obj.get_sub_total }}</span>
+    </tr>
+    <tr>
+        <td>
+            <p>RESPONSABLE DEL MUESTREO: <span>{{ order_obj.order_info.get_responsible_display }}</span></p>
         </td>
     </tr>
     <tr>
         <th align="center">
-            <p>Descuento: </p>
+            Requisitos para el ingreso a las instalaciones del cliente (Información aplicable solo cuando el muestreo es responsabilidad del laboratorio):
         </th>
-        <td align="center">
-            <span>S/.{{ order_obj.discount }}</span>
+    </tr>
+    <tr>
+        <td>
+            <p><span>{{ order_obj.order_info.riic }}</span></p>
         </td>
     </tr>
     <tr>
         <th align="center">
-            <p>TOTAL SIN IGV 18%:</p>
+            REQUISITOS DE LOS ESTUDIOS DE MECÁNICA DE SUELOS O ESTUDIOS GEOTÉCNICO
         </th>
-        <td align="center">
-            <span>S/.{{ order_obj.get_total_not_igv }}</span>
+    </tr>
+    <tr>
+        <td>
+            <p><span>{{ order_obj.order_info.remseg }}.</span></p>
         </td>
     </tr>
     <tr>
         <th align="center">
-            <p>IGV 18%:</p>
+            REQUISITOS DE LOS ESTUDIOS DE MECÁNICA DE SUELOS O ESTUDIOS GEOTÉCNICO
         </th>
-        <td align="center">
-            <span>S/.{{ order_obj.get_igv }}</span>
+    </tr>
+    <tr>
+        <td>
+            <p><span>{{ order_obj.order_info.remseg }}.</span></p>
         </td>
     </tr>
     <tr>
         <th align="center">
-            <p>TOTAL inc. IGV 18%</p>
+            REQUISITOS LEGALES O REGLAMENTARIOS APLICABLES AL SERVICIO
         </th>
-        <td align="center">
-            <span>S/.{{ order_obj.get_total_igv }}</span>
+    </tr>
+    <tr>
+        <td>
+            <p><span>{{ order_obj.order_info.get_rlras_display }}.</span></p>
         </td>
     </tr>
+    <tr>
+        <th align="center">
+            OBSERVACIONES
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <p><span>{{ order_obj.order_info.observation }}.</span></p>
+        </td>
+    </tr>
+    <tr>
+        <th align="center">
+            RESPONSABLE DE LA IDENTIFICACIÓN DE LOS REQUISITOS DEL SERVICIO
+        </th>
+    </tr>
+    <table>
+        <tr>
+            <td width="55%">
+                <p>NOMBRE: <span>{{ order_obj.order_info.rirs.user.profession|title }}. {{ order_obj.order_info.rirs.user.get_full_name|title }}</span></p>
+            </td>
+            <td width="45%">
+                <p>CARGO: <span>{{ order_obj.order_info.rirs.user.adminprofile.get_charge_display|title }}</span></p>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th align="center">
+                RESPONSABLE DE LA EVALUACIÓN DE LA CAPACIDAD DEL LABORATORIO
+            </th>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td width="55%">
+                <p>NOMBRE: <span>{{ order_obj.order_info.recl.user.profession|title }}. {{ order_obj.order_info.recl.user.get_full_name|title }}</span></p>
+            </td>
+            <td width="45%">
+                <p>CARGO: <span>{{ order_obj.order_info.recl.user.adminprofile.get_charge_display|title }}</span></p>
+            </td>
+        </tr>
+    </table>
 </table>
 {% endblock %}

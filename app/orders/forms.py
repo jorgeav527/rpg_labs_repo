@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory
 
-from orders.models import Order, OrderItems
+from orders.models import Order, OrderItems, OrderInfo
 from companies.models import Company
 from members.models import ClientProfile
 from projects.models import Project
@@ -110,3 +110,32 @@ OrderItemsFormset = inlineformset_factory(
     min_num=1,
     validate_min=True,
 )
+
+
+class OrderInfoForm(forms.ModelForm):
+    class Meta:
+        model = OrderInfo
+        fields = (
+            "responsible",
+            "riic",
+            "remseg",
+            "rlras",
+            "observation",
+            "rirs",
+            "recl",
+        )
+        labels = {
+            "responsible": "Responsable del muestreo.",
+            "riic": "Requisitos para el ingreso a las instalaciones del cliente.",
+            "remseg": "Requisitos de los estudios de mecánica de suelos o estudios geotécnico",
+            "rlras": "Requisitos legales o reglamentarios aplicables al servicio",
+            "observation": "Observaciones",
+            "rirs": "Responsable de la identificación de los requisitos del servicio",
+            "recl": "Responsable de la evaluación de la capacidad del laboratorio",
+        }
+        widgets = {
+            "riic": forms.Textarea(attrs={"rows": 4}),
+            "remseg": forms.Textarea(attrs={"rows": 4}),
+            "observation": forms.Textarea(attrs={"rows": 4}),
+            "summary": forms.Textarea(attrs={"rows": 4}),
+        }

@@ -12,7 +12,7 @@ from tests_labs.models import TestLab
 from orders.models import Order, OrderItems
 from projects.models import Project
 from members.models import ClientProfile
-from orders.forms import OrderForm, OrderItemsForm, OrderItemsFormset
+from orders.forms import OrderForm, OrderItemsForm, OrderItemsFormset, OrderInfoForm
 
 
 def link_callback(uri, rel):
@@ -62,7 +62,7 @@ def create_order(request):
         request.POST or None, instance=order_instance, prefix="items"
     )
     if request.method == "POST":
-        print("running:", form_order.errors.values(), formset_order_items.is_valid())
+        # print("running:", form_order.errors.values(), formset_order_items.is_valid())
         if form_order.is_valid() and formset_order_items.is_valid():
             form_order.save()
             formset_order_items.save()
@@ -89,7 +89,7 @@ def update_order(request, order_id):
         request.POST or None, instance=order_instance, prefix="items"
     )
     if request.method == "POST":
-        print("running:", form_order.errors.values(), formset_order_items.is_valid())
+        # print("running:", form_order.errors.values(), formset_order_items.is_valid())
         if form_order.is_valid() and formset_order_items.is_valid():
             form_order.save()
             formset_order_items.save()
@@ -172,7 +172,7 @@ def company_project_client(request):
 
 def pdf_cost_quatotion_order(request, order_id):
     order_obj = Order.objects.get(pk=order_id)
-    title_head = f"cotización Nº {order_obj.number_request}"
+    title_head = f"cotización Nº { order_obj.date_cost_quatotion_create() }"
     title_header = "laboratorio de mecánica de suelos, concreto y mezclas asfálticas"
     code_header = "RPG-FO-GT-11"
     version_header = "01"
@@ -201,7 +201,7 @@ def pdf_cost_quatotion_order(request, order_id):
 
 def pdf_requirement_order(request, order_id):
     order_obj = Order.objects.get(pk=order_id)
-    title_head = f"requerimiento Nº {order_obj.number_request}"
+    title_head = f"requerimiento Nº { order_obj.date_cost_quatotion_create() }"
     title_header = "determinación y revisión de requisitos de los servicios de ensayo, estudios geotécnicos y estudios de mecánica de suelos"
     code_header = "RPG-FO-GT-10"
     version_header = "01"
@@ -230,8 +230,20 @@ def pdf_requirement_order(request, order_id):
 
 
 def pdf_execution_order(request, order_id):
+    order_obj = Order.objects.get(pk=order_id)
+    title_head = f"orden para ejecución Nº { order_obj.date_execution_create() }"
+    title_header = "laboratorio de mecánica de suelos, concreto y mezclas asfálticas"
+    code_header = "RPG-FO-GT-13"
+    version_header = "01"
+
     template_path = "orders/pdf_execution.html"
-    context = {"myvar": "la orden de ejecucion"}
+    context = {
+        "order_obj": order_obj,
+        "title_head": title_head,
+        "title_header": title_header,
+        "code_header": code_header,
+        "version_header": version_header,
+    }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="report.pdf"'
@@ -248,8 +260,20 @@ def pdf_execution_order(request, order_id):
 
 
 def pdf_liquidation_order(request, order_id):
+    order_obj = Order.objects.get(pk=order_id)
+    title_head = f"hoja de liquidación Nº { order_obj.date_execution_create() }"
+    title_header = "laboratorio de mecánica de suelos, concreto y mezclas asfálticas"
+    code_header = "RPG-FO-GT-18"
+    version_header = "01"
+
     template_path = "orders/pdf_liquidation.html"
-    context = {"myvar": "la liquidación"}
+    context = {
+        "order_obj": order_obj,
+        "title_head": title_head,
+        "title_header": title_header,
+        "code_header": code_header,
+        "version_header": version_header,
+    }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="report.pdf"'
@@ -263,3 +287,28 @@ def pdf_liquidation_order(request, order_id):
     if pisa_status.err:
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
     return response
+
+
+def update_order_info(request, order_id):
+    title = "información relacionada con el muestreo"
+    section = "registro de requerimientos - info"
+    title_page = "requerimiento-info"
+    order_instance = get_object_or_404(Order, id=order_id)
+    form_order_info = OrderInfoForm(
+        request.POST or None, instance=order_instance.order_info, prefix="main"
+    )
+    if request.method == "POST":
+        # print("running:", form_order_info.errors.values(), formset_order_items.is_valid())
+        if form_order_info.is_valid():
+            form_order_info.save()
+            return redirect("core:requirement")
+        else:
+            messages.error(request, "Hubo un error en el Registro.")
+    context = {
+        "order_instance": order_instance,
+        "form_order_info": form_order_info,
+        "title": title,
+        "section": section,
+        "title_page": title_page,
+    }
+    return render(request, "orders/form_create_update_info.html", context)

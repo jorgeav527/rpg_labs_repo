@@ -1,7 +1,8 @@
 <tr id="">
     <td>{{ order.id }}-{{ forloop.revcounter }}</td>
-    <td>{{ order.number_request }}</td>
-    <td>{{ order.discount }}</td>
+    <td>{{ order.created|date:"Y-m-d"}}</td>
+    <td>S/. {{ order.get_total_igv }}</td>
+    <td>S/. {{ order.discount }}</td>
     <td>{{ order.created }}</td>
     <td>{{ order.updated }}</td>
     <td>
@@ -16,6 +17,9 @@
             <button type="button" class="btn btn-outline-danger">
                 <i class="feather icon-trash-2 f-16 mr-2"></i>Borrar
             </button>
+        </a>
+        <a href="{% url 'orders:update_order_info' order.id %}">
+            <button type="button" class="btn btn-outline-info"><i class="feather icon-info f-16 mr-2"></i>Info</button>
         </a>
         {% if order.cost_quatotion %}
         <a href="{% url 'orders:pdf_cost_quatotion_order' order.id %}">
@@ -37,14 +41,5 @@
             <button type="button" class="btn btn-outline-secondary"><i class="feather icon-file-text f-16 mr-2"></i>Liquidación</button>
         </a>
         {% endif %}
-        <a href=""
-            type="button" class="btn btn-outline-info"
-            data-toggle="modal"
-            data-target="#detailModalCompany"
-            hx-get="{ url 'companies:detail_company_hx' company.id %}"
-            hx-target="#detailCompanyContent"
-            hx-swap="innerHTML">
-            <i class="feather icon-info f-16 mr-2"></i>Info
-        </a>
     </td>
 </tr>

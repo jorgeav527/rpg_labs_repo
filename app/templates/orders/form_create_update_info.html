@@ -1,0 +1,137 @@
+{% extends "layouts/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %} {{ title_page|upper }} {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}	
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-content">
+
+            <!-- [ Main Content ] start -->
+            <div class="row">       
+                        
+                <!-- Customer overview start -->
+                <div class="col-lg-12">
+                    <div class="card table-card">
+
+                        <div class="card-header">
+                            <h5>{{ title|title }}</h5>
+                            <div class="card-header-right">
+                                <div class="btn-group card-option">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="feather icon-more-horizontal"></i>
+                                    </button>
+                                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
+                                        <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
+                                        <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Colapsar</span><span style="display:none"><i class="feather icon-plus"></i> Expadir</span></a></li>
+                                        <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> Refrescar</a></li>
+                                        <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> Remover</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body p-3">
+                            <form method="POST">
+                                {% csrf_token %} 
+                                <div class="col-md-6">
+                                    <div class="form">
+                                        <div class="form-group mb-3">
+                                            <label for="">{{ form_order_info.responsible.label }}</label>
+                                            {% render_field form_order_info.responsible class="form-control" %}
+                                            {% if form_order_info.responsible.help_text %}
+                                            <small class="form-text text-muted">{{ form_order_info.responsible.help_text }}</small>
+                                            {% endif %}
+                                        </div>                                        
+                                        <div class="form-group mb-3">
+                                            <label for="">{{ form_order_info.riic.label }}</label>
+                                            {% render_field form_order_info.riic class="form-control" %}
+                                            {% if form_order_info.riic.help_text %}
+                                            <small class="form-text text-muted">{{ form_order_info.riic.help_text }}</small>
+                                            {% endif %}
+                                            {% for error in form_order_info.riic.errors %}
+                                            <p class="form-text text-danger">{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="">{{ form_order_info.remseg.label }}</label>
+                                            {% render_field form_order_info.remseg class="form-control" %}
+                                            {% if form_order_info.remseg.help_text %}
+                                            <small class="form-text text-muted">{{ form_order_info.remseg.help_text }}</small>
+                                            {% endif %}
+                                            {% for error in form_order_info.remseg.errors %}
+                                            <p class="form-text text-danger">{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="">{{ form_order_info.rlras.label }}</label>
+                                            {% render_field form_order_info.rlras class="form-control" %}
+                                            {% if form_order_info.rlras.help_text %}
+                                            <small class="form-text text-muted">{{ form_order_info.rlras.help_text }}</small>
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="">{{ form_order_info.observation.label }}</label>
+                                            {% render_field form_order_info.observation class="form-control" %}
+                                            {% if form_order_info.observation.help_text %}
+                                            <small class="form-text text-muted">{{ form_order_info.observation.help_text }}</small>
+                                            {% endif %}
+                                            {% for error in form_order_info.observation.errors %}
+                                            <p class="form-text text-danger">{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="">{{ form_order_info.rirs.label }}</label>
+                                            {% render_field form_order_info.rirs class="form-control" %}
+                                            {% if form_order_info.rirs.help_text %}
+                                            <small class="form-text text-muted">{{ form_order_info.rirs.help_text }}</small>
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="">{{ form_order_info.recl.label }}</label>
+                                            {% render_field form_order_info.recl class="form-control" %}
+                                            {% if form_order_info.recl.help_text %}
+                                            <small class="form-text text-muted">{{ form_order_info.recl.help_text }}</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                            
+                                </div>
+                                                                        
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <a type="button" class="btn btn-danger"
+                                    href="{% url 'core:requirement' %}">
+                                    Cancelar
+                                </a>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Customer overview end -->
+                
+            </div>
+            <!-- [ Main Content ] end -->
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+    <!-- modals-card start -->
+    
+    <!-- modals-card end -->
+    
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

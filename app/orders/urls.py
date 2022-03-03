@@ -37,7 +37,7 @@ urlpatterns = [
         views.delete_order_item_row,
         name="delete_order_item_row_hx",
     ),
-    # be carefull about the _ because of the http request
+    # be carefull about the _ because of the http request htmx
     path(
         "characteristic/test_lab/",
         views.characteristic_test_lab,
@@ -48,5 +48,9 @@ urlpatterns = [
         "company/project/client/",
         views.company_project_client,
         name="company_project_client_hx",
+    ),
+    # orderinfo
+    path(
+        "order-info/<int:order_id>", views.update_order_info, name="update_order_info"
     ),
 ]

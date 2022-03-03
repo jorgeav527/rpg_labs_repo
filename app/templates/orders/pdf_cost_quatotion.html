@@ -76,10 +76,15 @@
         <td align="center">{{ order_item.quantity }}</td>
         <td align="center">S/.{{ order_item.price }}</td>
         <td align="center">S/.{{ order_item.get_partial_igv }}</td>
-        <td align="center">{{ order_item.sampling_by }}</td>
+        {% if order_item.sampling_by is True %}
+        <td align="center">SI</td>
+        {% elif order_item.sampling_by is False %}
+        <td align="center">NO</td>
+        {% elif order_item.sampling_by is None %}
+        <td align="center">N/A</td>
+        {% endif %}
     </tr>
     {% endfor %}
-    <img src="vol/web/assets/images/user/avatar-1.jpg" alt="">
 </table>
 <br>
 <table style="width:100%">

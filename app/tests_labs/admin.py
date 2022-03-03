@@ -30,7 +30,6 @@ class TestLabAdmin(ImportExportModelAdmin):
         "get_partial_igv",
         "get_partial_not_igv",
     )
-    # list_filter = ("name_test", "characteristic__matrix")
     list_display_links = ("name_test",)
     radio_fields = {"characteristic": admin.HORIZONTAL}
     search_fields = ["name_test"]

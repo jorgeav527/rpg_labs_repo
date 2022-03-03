@@ -1,6 +1,6 @@
 import os
 from decimal import Decimal, ROUND_UP
-from datetime import datetime
+from datetime import datetime, date
 
 from django.contrib import admin
 from django.db import models
@@ -9,14 +9,13 @@ from django.forms import inlineformset_factory
 from tests_labs.models import TestLab, CharacteristicTestLab
 from companies.models import Company
 from projects.models import Project
-from members.models import ClientProfile
-from orders.choices import TypeService
+from members.models import ClientProfile, AdminProfile
+from orders.choices import TypeService, TypeResponsible, TypeLegalRequirements
 
 IGV = Decimal(os.environ.get("IGV")).quantize(Decimal("0.01"))
 
 
 class Order(models.Model):
-    number_request = models.CharField(max_length=20, default="codigo")
     company = models.ForeignKey(
         Company,
         on_delete=models.SET_NULL,
@@ -81,18 +80,11 @@ class Order(models.Model):
             Decimal("0.01")
         )
 
-    def save(self, *args, **kwargs):
-        # Generate the number_request (e.g. 2022-2-1-16-33-22)
-        date = datetime.today()
-        self.number_request = "%s-%s-%s-%s-%s-%s" % (
-            date.year,
-            date.month,
-            date.day,
-            date.hour,
-            date.minute,
-            date.second,
-        )
-        super(Order, self).save(*args, **kwargs)
+    def date_cost_quatotion_create(self):
+        return self.created.strftime("%Y %-m %-d %H %M %S")
+
+    def date_execution_create(self):
+        return self.updated.strftime("%Y %-m %-d %H %M %S")
 
 
 class OrderItems(models.Model):
@@ -136,11 +128,44 @@ class OrderItems(models.Model):
         )
 
 
-# class OrderInfo(models.Model):
-#     order = models.OneToOneField(
-#         Order, on_delete=models.CASCADE, related_name="order_info"
-#     )
+class OrderInfo(models.Model):
+    order = models.OneToOneField(
+        Order, on_delete=models.CASCADE, related_name="order_info"
+    )
+    responsible = models.CharField(
+        max_length=15, choices=TypeResponsible.choices, default=TypeResponsible.CLIENT
+    )
+    riic = models.TextField(
+        default="NO SE TIENEN REQUISITOS PARA EL INGRESO",
+        blank=True,
+        null=True,
+        help_text="Información aplicable solo cuando el muestreo es responsabilidad del laboratorio",
+    )
+    remseg = models.TextField(blank=True, null=True)
+    rlras = models.CharField(
+        max_length=20,
+        choices=TypeLegalRequirements.choices,
+        default=TypeLegalRequirements.NO_INDICA,
+    )
+    observation = models.TextField(blank=True, null=True)
+    rirs = models.ForeignKey(
+        AdminProfile,
+        on_delete=models.SET_NULL,
+        related_name="rirs_orderinfo",
+        verbose_name="rirs_order_info",
+        default=None,
+        null=True,
+        blank=True,
+    )
+    recl = models.ForeignKey(
+        AdminProfile,
+        on_delete=models.SET_NULL,
+        related_name="recl_orderinfo",
+        verbose_name="recl_orderinfo",
+        default=None,
+        null=True,
+        blank=True,
+    )
 
-
-#     def __str__(self):
-#         return "(%s): (%s)" % (self.pk, self.order)
+    def __str__(self):
+        return "(%s): (%s)" % (self.pk, self.order)
