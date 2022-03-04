@@ -6,7 +6,8 @@
 # https://learndjango.com/tutorials/django-docker-and-postgresql-tutorial
 # https://computingforgeeks.com/dockerize-django-application-with-postgresql/
 
-docker-compose run zuri python manage.py makemigrations
-docker-compose run zuri python manage.py migrate
-docker-compose up
-docker-compose exec db psql --username=hello_django --dbname=hello_django_dev
+docker-compose -f docker-compose-dev.yml run --rm app sh -c "python manage.py collectstatic --no-input"
+docker-compose -f docker-compose-dev.yml run app python manage.py makemigrations
+docker-compose -f docker-compose-dev.yml run app python manage.py migrate
+docker-compose -f docker-compose-dev.yml up
+docker-compose -f docker-compose-dev.yml exec db psql --username=hello_django --dbname=hello_django_dev

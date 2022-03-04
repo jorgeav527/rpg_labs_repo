@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.8.10-slim
 LABEL maintainer="jorgeav527@gmail.com"
 
 ENV PYTHONUNBUFFERED 1
@@ -9,7 +9,8 @@ COPY ./scripts /scripts
 
 EXPOSE 8000
 
-RUN python -m venv /py && \
+RUN apt-get update && apt-get install -y --no-install-recommends -o APT::Immediate-Configure=false gcc g++ && \
+    python -m venv /py && \
     /py/bin/pip install --upgrade pip wheel setuptools && \
     /py/bin/pip install -r /requirements.txt && \
     adduser --disabled-password --no-create-home app && \
