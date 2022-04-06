@@ -1,0 +1,18 @@
+<input type="number" name="{{items_name}}-{{ item }}-price" step="0.01" class="form-control"
+    id="id_{{items_name}}-{{ item }}-price" value="{{ test_lab.price|safe }}" hx-swap-oob="true">
+
+
+<input type="number" name="{{items_name}}-{{ item }}-quantity" value="{{ test_lab.quantity|safe }}" min="0"
+    class="form-control" id="id_{{items_name}}-{{ item }}-quantity" hx-swap-oob="true">
+
+<select name="{{items_name}}-{{ item }}-unit" class="form-select"
+    id="id_{{items_name}}-{{ item }}-unit" hx-swap-oob="true">
+    <option value="None" {% if test_lab.unit == "None" %} selected {% endif %}>--------</option>
+    <option value="UND" {% if test_lab.unit == "UND" %} selected {% endif %}>Und.</option>
+    <option value="NOCHE" {% if test_lab.unit == "NOCHE" %} selected {% endif %}>noche</option>
+    <option value="DIA" {% if test_lab.unit == "DIA" %} selected {% endif %}>día</option>
+    <option value="PROBETA" {% if test_lab.unit == "PROBETA" %} selected {% endif %}>probeta</option>
+    <option value="PUNTO" {% if test_lab.unit == "PUNTO" %} selected {% endif %}>punto</option>
+    <option value="KM/CARRIL" {% if test_lab.unit == "KM/CARRIL" %} selected {% endif %}>km/carril</option>
+    <option value="KM" {% if test_lab.unit == "KM" %} selected {% endif %}>km</option>
+</select>

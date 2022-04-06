@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html' %}
+{% load widget_tweaks %}
+
+{% block main_content %}
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+<form method="POST" action="{{ request.path }}">
+    {% csrf_token %}
+    {{ form.media.js }}
+    <h5>Edit Movie</h5>
+    <div class="mb-3">
+        <label for="{{ form.continent.id_for_label }}" class="form-label">Continente</label>
+        {% render_field form.continent class="form-control" %}
+        <div class="invalid-feedback">{{ form.continent.errors|first }}</div>
+    </div>
+    <div class="mb-3">
+        <label for="{{ form.country.id_for_label }}" class="form-label">country</label>
+        {% render_field form.country class="form-control" %}
+        <div class="invalid-feedback">{{ form.country.errors|first }}</div>
+    </div>
+    <div class="mb-3">
+        <label for="{{ form.river.id_for_label }}" class="form-label">river</label>
+        {% render_field form.river class="form-control" %}
+        <div class="invalid-feedback">{{ form.river.errors|first }}</div>
+    </div>
+    <div class="mb-3">
+        <label for="{{ form.area.id_for_label }}" class="form-label">area</label>
+        {% render_field form.area class="form-control" %}
+        <div class="invalid-feedback">{{ form.area.errors|first }}</div>
+    </div>
+    <div class="mb-3">
+        <label for="{{ form.city.id_for_label }}" class="form-label">city</label>
+        {% render_field form.city class="form-control" %}
+        <div class="invalid-feedback">{{ form.city.errors|first }}</div>
+    </div>
+    <div class="mb-3">
+        <label for="{{ form.street.id_for_label }}" class="form-label">street</label>
+        {% render_field form.street class="form-control" %}
+        <div class="invalid-feedback">{{ form.street.errors|first }}</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endwith %}
+{% endblock main_content %}

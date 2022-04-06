@@ -1,0 +1,43 @@
+{% load widget_tweaks %}
+
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{ title|upper }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+            <label for="{{ form.social_reason.id_for_label }}" class="form-label">{{ form.social_reason.label }}</label>
+            {% render_field form.social_reason class="form-control" placeholder="Grupo RPG SAC" %}
+            <div class="invalid-feedback">{{ form.social_reason.errors|first }}</div>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.address.id_for_label }}" class="form-label">{{ form.address.label }}</label>
+            {% render_field form.address class="form-control" placeholder="Urbanización la Colina e-527 Cercado" %}
+            <div class="invalid-feedback">{{ form.address.errors|first }}</div>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.ruc.id_for_label }}" class="form-label">{{ form.ruc.label }}</label>
+            {% render_field form.ruc class="form-control" placeholder="10803715487" %}
+            <div class="invalid-feedback">{{ form.ruc.errors|first }}</div>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.type_company.id_for_label }}" class="form-label">{{ form.type_company.label }}</label>
+            {% render_field form.type_company class="form-control" placeholder="Grupo RPG SAC" %}
+            <div class="invalid-feedback">{{ form.type_company.errors|first }}</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        {% if company %}
+        <button type="button" class="btn btn-danger" 
+            hx-post="{% url 'companies:delete_company' company_pk=company.pk %}">
+            <i class="bi bi-trash me-1"></i> Borrar
+        </button>
+        <span class="flex-grow-1"></span>
+        {% endif %}
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Despejar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+{% endwith %}

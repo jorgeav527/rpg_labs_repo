@@ -1,36 +1,45 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- ======= Head ======= -->
+
 <head>
 
-    {% include 'includes/head.html' %}
+    {% include 'layouts/includes/head.html' %}
 
-    <title>
-        RPG labs | {% block title_head %}{% endblock %} | SAC
-    </title>
+    <title>Grupo RPG | {% block title_head %}{% endblock %} | SAC</title>
 
     <!-- Specific CSS goes HERE -->
     {% block stylesheets %}{% endblock stylesheets %}
 
-</head>
+</head><!-- End Head -->
 
-<body class="">
+<body>
 
-    <!-- [ Pre-loader ] start -->
-    <div class="loader-bg">
-        <div class="loader-track">
-            <div class="loader-fill"></div>
-        </div>
-    </div>
-    <!-- [ Pre-loader ] End -->
+    {% include 'layouts/includes/header.html' %}
 
-    {% include 'includes/navigation.html' %}
+    {% include 'layouts/includes/sidebar.html' %}
 
-    {% include 'includes/header.html' %}
+    <main id="main" class="main position-relative">
 
-    {% block content %}{% endblock content %}
+        {% block main_content %}
+        {% endblock main_content %}
 
-    {% include 'includes/scripts.html' %}
+        <!-- Placeholder for the modal -->
+        <div id="modal" class="modal fade">
+            <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+        </div><!-- End Placeholder for the modal -->
+
+    </main>
+
+    {% include 'layouts/includes/footer.html' %}
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    {% include 'layouts/includes/scripts.html' %}
 
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}{% endblock javascripts %}

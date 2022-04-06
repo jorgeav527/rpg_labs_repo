@@ -1,174 +1,94 @@
 {% extends "layouts/base.html" %}
-{% load widget_tweaks %}
+{% load static %}
 
-{% block title_head %} {{ title_head|upper }} {% endblock %} 
+{% block title_head %} {{ first_section|upper }} {% endblock %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+tr.htmx-swapping td {
+opacity: 0;
+transition: opacity 500ms ease-out;
+}
+{% endblock stylesheets %}
 
-{% block content %}	
+{% block main_content %}
+<div class="pagetitle">
+    <h1>{{ title|title }}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">{{ first_section|capfirst }}</a></li>
+            <li class="breadcrumb-item active">{{ second_section|capfirst }}</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
 
-    <!-- [ Main Content ] start -->
-    <div class="pcoded-main-container">
-        <div class="pcoded-content">
+<!-- [ Main Content ] start -->
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
 
-            <!-- [ Main Content ] start -->
-            <div class="row">       
-                        
-                <!-- account-section start -->
-                <div class="col-lg-4">
-                    <div id="companyForm" class="card">
-                        <div class="card-header">
-                            <h5>{{ section|title }}</h5>
-                        </div>
-                        {% include 'includes/messages.html' %}
-                        <div class="card-body">
-                            {% block content_change %}
-                            {% lorem 2 p %}
-                            {% endblock %}
-                        </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h5 class="card-title">{{ second_section|upper }}</h5>
+                        <div class="ms-auto">
+                            <form class="search-form d-flex align-items-center">
+                                {% csrf_token %}
+                                <input  type="text" name="query" placeholder="Buscar"
+                                    hx-get="{% url 'orders:search_list_order_quatotion' %}"
+                                    hx-target="#table-orders-quatotion"
+                                    hx-swap="innerHTML"
+                                    hx-trigger="keyup changed delay:200ms">
+                            </form>
+                        </div><!-- End Search Bar -->                    
                     </div>
-                </div>
-                <!-- account-section end -->
+                    
+                    <!-- End Search Bar -->
 
-                <!-- Customer overview start -->
-                <div class="col-lg-8">
-                    <div class="card table-card">
-                        <div class="card-header">
-                            <a href="{% url 'orders:create_order' %}" type="button" class="btn btn-outline-primary">
-                                <i class="feather icon-plus-circle f-16 mr-2"></i>Agregar Requerimiento
-                            </a>
-                            <div class="card-header-right">
-                                <div class="btn-group card-option">
-                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="feather icon-more-horizontal"></i>
-                                    </button>
-                                    <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
-                                        <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> Maximizar</span><span style="display:none"><i class="feather icon-minimize"></i> Restaurar</span></a></li>
-                                        <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> Colapsar</span><span style="display:none"><i class="feather icon-plus"></i> Expadir</span></a></li>
-                                        <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> Refrescar</a></li>
-                                        <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> Remover</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <ul class="nav nav-pills nav-fill mt-3 border-bottom pb-3" id="pills-tab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="pills-companies-tab" data-toggle="pill" href="#pills-companies" role="tab" aria-controls="pills-companies" aria-selected="true"
-                                        hx-get="{% url 'orders:list_order_hx' %}"
-                                        hx-trigger="load delay:100ms"
-                                        hx-target="#orderTable"
-                                        hx-swap="innerHTML">
-                                        <i class="feather icon-file-text m-r-5"></i>Cotización
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-clients-tab" data-toggle="pill" href="#pills-clients" role="tab" aria-controls="pills-clients" aria-selected="false">
-                                        <i class="feather icon-file-text m-r-5"></i>Requerimiento
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-projects-tab" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
-                                        <i class="feather icon-file-text m-r-5"></i>Orden para Ejecución
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pills-news-tab" data-toggle="pill" href="#pills-news" role="tab" aria-controls="pills-news" aria-selected="false">
-                                        <i class="feather icon-file-text m-r-5"></i>Liquidación
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-companies" role="tabpanel" aria-labelledby="pills-companies-tab">
-                                    <div class="table-responsive">
-                                        <div class="customer-scroll" style="height:420px;position:relative;">
-                                            <table id="orderTable" class="table table-hover m-b-0">
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-clients" role="tabpanel" aria-labelledby="pills-clients-tab">
-                                    <div class="table-responsive">
-                                        <div class="customer-scroll1" style="height:420px;position:relative;">
-                                            <table id="clientTable" class="table table-hover m-b-0">
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-projects" role="tabpanel" aria-labelledby="pills-projects-tab">
-                                    <div class="table-responsive">
-                                        <div class="customer-scroll2" style="height:420px;position:relative;">
-                                            <table id="projectTable" class="table table-hover m-b-0">
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Table with stripped rows -->
+                    <div class="table-responsive">
+                        <table class="table text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nº de Orden</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Descuento</th>
+                                    <th scope="col">Creado</th>
+                                    <th scope="col">Actualizado</th>
+                                    <th scope="col">Acciones</th>
+                                    <th scope="col">Documentos</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-orders-quatotion" hx-trigger="load delay:500ms, orderListChanged from:body delay:500ms"
+                                hx-get="{% url 'orders:list_order_quatotion' %}">
+                                <tr>
+                                    <td class="spinner-border" role="status">
+                                        <span class="visually-hidden">Cargando...</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                    <!-- End Table with stripped rows -->
+                    <br>
+                    <a type="button" class="btn btn-primary" href="{% url 'orders:create_order_quatotion' %}">
+                        Crear
+                    </a>
                 </div>
-                <!-- Customer overview end -->
-
-                <!-- order-card start -->
-                <div class="col-md-6 col-xl-3">
-                    <div class="card bg-c-blue order-card">
-                        <div class="card-body">
-                            <h6 class="text-white">Compañias</h6>
-                            <h2 class="text-right text-white"><i class="feather icon-shopping-cart float-left"></i><span>486</span></h2>
-                            <p class="m-b-0">Este Mes<span class="float-right">---</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xl-3">
-                    <div class="card bg-c-green order-card">
-                        <div class="card-body">
-                            <h6 class="text-white">Clientes</h6>
-                            <h2 class="text-right text-white"><i class="feather icon-tag float-left"></i><span>1641</span></h2>
-                            <p class="m-b-0">Este mes<span class="float-right">---</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xl-3">
-                    <div class="card bg-c-yellow order-card">
-                        <div class="card-body">
-                            <h6 class="text-white">Proyectos</h6>
-                            <h2 class="text-right text-white"><i class="feather icon-repeat float-left"></i><span>$42,562</span></h2>
-                            <p class="m-b-0">This Month<span class="float-right">---</span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xl-3">
-                    <div class="card bg-c-red order-card">
-                        <div class="card-body">
-                            <h6 class="text-white">-------</h6>
-                            <h2 class="text-right text-white"><i class="feather icon-award float-left"></i><span>$------</span></h2>
-                            <p class="m-b-0">-------<span class="float-right">$-----</span></p>
-                        </div>
-                    </div>
-                </div>
-                <!-- order-card end -->
             </div>
-            <!-- [ Main Content ] end -->
+
         </div>
     </div>
-    <!-- [ Main Content ] end -->
-
-    <!-- modals-card start -->
-    {% include "companies/detail_modal.html" %}
-    <!-- modals-card end -->
-    
-
-{% endblock content %}
+</section>
+<!-- [ Main Content ] end -->
+{% endblock main_content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
-    <script>
-        // Necessário por causa do delete
-        document.body.addEventListener('htmx:configRequest', (event) => {
-          event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-        });
-    </script>
-
+<script>
+    // Necessário por causa do delete
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    });
+</script>
 {% endblock javascripts %}

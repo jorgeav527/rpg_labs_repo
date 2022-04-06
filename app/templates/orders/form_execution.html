@@ -1,0 +1,178 @@
+{% extends "layouts/base.html" %}
+{% load widget_tweaks %}
+{% load order_extra %}
+
+{% block title_head %} {{ first_section|upper }} {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    button.is-link {
+        display: block;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block main_content %}
+<div class="pagetitle">
+    <h1>{{ title|title }}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">{{ first_section|capfirst }}</a></li>
+            <li class="breadcrumb-item active">{{ second_section|capfirst }}</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<!-- [ Main Content ] start -->
+<section class="section">
+    {% with WIDGET_ERROR_CLASS='is-invalid' %}
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ sub_first_section|upper }}</h5>
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <label for="{{ form_execution.discount.id_for_label }}"
+                                    class="form-label">{{ form_execution.discount.label }}</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">S/.</span>
+                                    {% render_field form_execution.discount class="form-control" %}
+                                    <div class="invalid-feedback">{{ form_execution.discount.errors|first }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <label for="{{ form_execution.observation.id_for_label }}"
+                                    class="form-label">{{ form_execution.observation.label }}</label>
+                                {% render_field form_execution.observation class="form-control" %}
+                                <div class="invalid-feedback">{{ form_execution.observation.errors|first }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ sub_second_section|upper }}</h5>
+                        {% for form in form_item_execution %}
+                        {{ form_item_execution.management_form }}
+                        {{ form.media.js }}
+                        {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                        {% endfor %}
+                        <div class="row g-3">
+                            <div class="col-md-1">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Nº {{ forloop.counter }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">{{ form.characteristic_testlab.label }}</span>
+                                    {% render_field form.characteristic_testlab class="form-select" %}
+                                    <div class="invalid-feedback">{{ form.characteristic_testlab.errors|first }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="here" class="input-group mb-3">
+                                    <span class="input-group-text">{{ form.testlab.label }}</span>
+                                    {% with hxtarget="#id_"|addstr:items_name|addstr:"-"|addstr:forloop.counter0|addstr:"-price" hxget="/orders/"|addstr:items_name|addstr:"/testlab/unit_quantity_price/" %}
+                                    {% render_field form.testlab hx-target=hxtarget class="form-select" hx-get=hxget %}
+                                    {% endwith %}
+                                    <div class="invalid-feedback">{{ form.testlab.errors|first }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">{{ form.unit.label }}</span>
+                                    {% render_field form.unit class="form-select" %}
+                                    <div class="invalid-feedback">{{ form.unit.errors|first }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">{{ form.quantity.label }}</span>
+                                    {% render_field form.quantity class="form-control" %}
+                                    <div class="invalid-feedback">{{ form.quantity.errors|first }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">{{ form.price.label }}</span>
+                                    {% render_field form.price class="form-control" %}
+                                    <div class="invalid-feedback">{{ form.price.errors|first }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">{{ form.sampling_by.label }}</span>
+                                    {% render_field form.sampling_by class="form-select" %}
+                                    <div class="invalid-feedback">{{ form.sampling_by.errors|first }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {% render_field form.DELETE class="form-check-input" %}
+                                    <label class="form-check-label">Borrar?</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-5">
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ sub_third_section|upper }}</h5>
+                        {% for form in form_item_paid %}
+                        {{ form_item_paid.management_form }}
+                        {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                        {% endfor %}
+                        <div class="row g-3">
+                            <div class="col-md-1">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Pago Nº{{ forloop.counter }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group mb-3">
+                                    {% render_field form.percentage class="form-control" %}
+                                    <span class="input-group-text">%</span>
+                                    <div class="invalid-feedback">{{ form.percentage.errors|first }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <hr class="mb-5">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a type="button" class="btn btn-danger" href="{% url 'core:requirement' %}">Cancelar</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    {% endwith %}
+
+</section>
+<!-- [ Main Content ] end -->
+{% endblock main_content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<!-- HTMX headers js -->
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    });
+</script>
+{% endblock javascripts %}

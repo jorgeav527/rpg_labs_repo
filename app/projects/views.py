@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
+from django.views.decorators.http import require_POST
 
 from projects.models import Project
 from projects.forms import ProjectForm
@@ -19,58 +21,87 @@ def list_project(request):
     return render(request, "projects/table.html", context)
 
 
-def update_create_list_project(request, company_id=None, project_id=None):
-    project_obj = None
-    company_obj = None
-    title = "cotización"
-    section = "registro de projectos"
-    title_head = "re-pro"
-    context = {}
-    # update view
-    if project_id and company_id == None:
-        project_obj = get_object_or_404(Project, id=project_id)
-        form_project = ProjectForm(request.POST or None, instance=project_obj)
-        context["form_project"] = form_project
-        context["project_obj"] = project_obj
-        if request.method == "POST":
-            form_project = ProjectForm(request.POST or None, instance=project_obj)
-            if form_project.is_valid():
-                form_project.save()
-                messages.success(request, f"El proyecto fue actualizado.")
-                return redirect("projects:update_project", project_id=project_id)
-            else:
-                messages.error(request, "Algo ocurrio.")
-    # create view
-    if company_id and project_id == None:
-        form_project = ProjectForm()
-        company_obj = Company.objects.get(id=company_id)
-        context["company_obj"] = company_obj
-        context["form_project"] = form_project
-        if request.method == "POST":
-            form_project = ProjectForm(request.POST or None)
-            if form_project.is_valid():
-                p_f = form_project.save(commit=False)
-                p_f.company = company_obj
-                p_f.save()
-                messages.success(request, f"El projecto fue registrado.")
-                return redirect("projects:create_project", company_id=company_id)
-            else:
-                messages.error(request, "Algo ocurrio.")
-
+def create_project(request, company_pk):
+    first_section = "-"
+    second_section = "-"
+    title = "crear proyecto"
+    company = Company.objects.get(pk=company_pk)
+    if request.method == "POST":
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            form_instance = form.save(commit=False)
+            form_instance.company = company
+            form_instance.save()
+            return HttpResponse(
+                status=204,
+                headers={"HX-Trigger": "companyListChanged"}
+                # headers={
+                #     "HX-Trigger": json.dumps(
+                #         {
+                #             "movieListChanged": None,
+                #             "showMessage": f"{company.title} added.",
+                #         }
+                #     )
+                # },
+            )
+    else:
+        form = ProjectForm()
     context = {
-        "project_obj": project_obj,
-        "company_obj": company_obj,
-        "form_project": form_project,
+        "form": form,
+        "first_section": first_section,
+        "second_section": second_section,
         "title": title,
-        "section": section,
-        "title_head": title_head,
     }
-    return render(request, "projects/form_create_update.html", context)
+    return render(request, "projects/form.html", context)
 
 
-def delete_project(request, project_id):
-    project_obj = get_object_or_404(Project, id=project_id)
-    project_obj_company_id = project_obj.company_id
-    project_obj.delete()
+def update_project(request, project_pk):
+    first_section = "-"
+    second_section = "-"
+    title = "editar proyecto"
+    project = get_object_or_404(Project, id=project_pk)
+    if request.method == "POST":
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(
+                status=204,
+                headers={"HX-Trigger": "companyListChanged"}
+                # headers={
+                #     "HX-Trigger": json.dumps(
+                #         {
+                #             "movieListChanged": None,
+                #             "showMessage": f"{company.title} added.",
+                #         }
+                #     )
+                # },
+            )
+    else:
+        form = ProjectForm(instance=project)
+    context = {
+        "form": form,
+        "project": project,
+        "first_section": first_section,
+        "second_section": second_section,
+        "title": title,
+    }
+    return render(request, "projects/form.html", context)
 
-    return redirect("companies:detail_company_hx", company_id=project_obj_company_id)
+
+@require_POST
+def delete_project(request, project_pk):
+    project = get_object_or_404(Project, pk=project_pk)
+    project.delete()
+    return HttpResponse(
+        "",
+        status=204,
+        headers={"HX-Trigger": "companyListChanged"}
+        # headers={
+        #     "HX-Trigger": json.dumps(
+        #         {
+        #             "movieListChanged": None,
+        #             "showMessage": f"{company.title} added.",
+        #         }
+        #     )
+        # },
+    )

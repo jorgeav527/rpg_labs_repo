@@ -1,0 +1,30 @@
+{% load static %}
+<!-- Content for Static Frame 'header_frame' -->
+<div id="header_content">
+    <table width="100%">
+        <tr>
+            <th rowspan="3" width="15%" align="left">
+                <img src="{% static 'assets/img/logo_RPG.jpeg' %}" width="95" height="40">
+            </th>
+            <th rowspan="2" width="65%" align="center">
+                <h3>{{ title_header|upper }}</h3>
+            </th>
+            <th width="20%" align="center">
+                <p>Código: <span>{{ code_header }}</span></p>
+            </th>
+        </tr>
+        <tr>
+            <th align="center">
+                <p>Versión: <span>{{ version_header }} </span></p>
+            </th>
+        </tr>
+        <tr>
+            <td align="center">
+                <p>{{ title_head|title }} <span>{{ order_obj.created|date:"Ymd" }}-{{ order_obj.pk }}</span></p>
+            </td>
+            <th align="center">
+                <p>Fecha: <span>{{ order_obj.created|date:"d/m/Y" }}</span></p>
+            </th>
+        </tr>
+    </table>
+</div>

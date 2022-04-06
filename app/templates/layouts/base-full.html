@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ======= Head ======= -->
+
+<head>
+
+    {% include 'layouts/includes/head.html' %}
+
+    <title>Grupo RPG | {% block title_head %}{% endblock %} | SAC</title>
+
+    <!-- Specific CSS goes HERE -->
+    {% block stylesheets %}{% endblock stylesheets %}
+
+</head><!-- End Head -->
+
+<body>
+
+    <main>
+        <div class="container">
+
+            <section
+                class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                            {% block main_content %}
+                            {% endblock main_content %}
+                            {% include 'layouts/includes/credits.html' %}
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+
+        </div>
+    </main><!-- End #main -->
+
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    {% include 'layouts/includes/scripts.html' %}
+
+    <!-- Specific Page JS goes HERE  -->
+    {% block javascripts %}{% endblock javascripts %}
+
+</body>
+
+</html>

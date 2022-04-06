@@ -11,7 +11,7 @@ EXPOSE 8000
 
 RUN apt-get update && apt-get install -y --no-install-recommends -o APT::Immediate-Configure=false gcc g++ && \
     python -m venv /py && \
-    /py/bin/pip install --upgrade pip wheel setuptools && \
+    /py/bin/pip install --upgrade pip setuptools wheel && \
     /py/bin/pip install -r /requirements.txt && \
     adduser --disabled-password --no-create-home app && \
     mkdir -p /vol/web/media && \

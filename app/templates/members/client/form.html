@@ -1,0 +1,53 @@
+{% load widget_tweaks %}
+
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">{{ title|upper }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+            {% render_field form.email class="form-control" %}
+            <div class="invalid-feedback">{{ form.email.errors|first }}</div>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.first_name.id_for_label }}" class="form-label">{{ form.first_name.label }}</label>
+            {% render_field form.first_name class="form-control" %}
+            <div class="invalid-feedback">{{ form.first_name.errors|first }}</div>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.last_name.id_for_label }}" class="form-label">{{ form.last_name.label }}</label>
+            {% render_field form.last_name class="form-control" %}
+            <div class="invalid-feedback">{{ form.last_name.errors|first }}</div>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.dni.id_for_label }}" class="form-label">{{ form.dni.label }}</label>
+            {% render_field form.dni class="form-control" %}
+            <div class="invalid-feedback">{{ form.dni.errors|first }}</div>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.profession.id_for_label }}" class="form-label">{{ form.profession.label }}</label>
+            {% render_field form.profession class="form-control" %}
+            <div class="invalid-feedback">{{ form.profession.errors|first }}</div>
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.cell_phone.id_for_label }}" class="form-label">{{ form.cell_phone.label }}</label>
+            {% render_field form.cell_phone class="form-control" %}
+            <div class="invalid-feedback">{{ form.cell_phone.errors|first }}</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        {% if client_user %}
+        <button type="button" class="btn btn-danger" 
+            hx-post="{% url 'members:delete_client' user_pk=client_user.pk %}">
+            <i class="bi bi-trash me-1"></i> Borrar
+        </button>
+        <span class="flex-grow-1"></span>
+        {% endif %}
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Despejar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+{% endwith %}

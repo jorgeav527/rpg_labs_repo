@@ -3,7 +3,7 @@ from django.db import models
 
 from decimal import Decimal, ROUND_UP
 
-from tests_labs.choices import Matrices, Labs, Unit
+from tests_labs.choices import Matrices, Labs, Units
 
 IGV = Decimal(os.environ.get("IGV"))
 
@@ -19,14 +19,13 @@ class CharacteristicTestLab(models.Model):
         verbose_name_plural = "characteristic_test_labs"
 
     def __str__(self):
-        return "(%s): %s - %s" % (self.pk, self.lab, self.matrix)
+        return "%s - %s" % (self.lab, self.matrix)
 
 
 class TestLab(models.Model):
     characteristic = models.ForeignKey(
         CharacteristicTestLab,
         verbose_name="test caracteristic",
-        related_name="characteristics",
         null=True,
         blank=True,
         on_delete=models.CASCADE,
@@ -34,7 +33,7 @@ class TestLab(models.Model):
     name_test = models.CharField(max_length=254)
     basic_norm = models.CharField(max_length=254, blank=True, null=True)
     refer_norm = models.CharField(max_length=254, blank=True, null=True)
-    unit = models.CharField(max_length=10, choices=Unit.choices, default=Unit.NONE)
+    unit = models.CharField(max_length=10, choices=Units.choices, default=Units.NONE)
     quantity = models.PositiveSmallIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     is_parent = models.BooleanField(default=False)
@@ -47,7 +46,7 @@ class TestLab(models.Model):
         verbose_name_plural = "tests_labs"
 
     def __str__(self):
-        return "(%s): %s" % (self.pk, self.name_test)
+        return "%s - %s" % (self.name_test, self.basic_norm)
 
     def get_partial_not_igv(self):
         return Decimal(self.price * self.quantity / IGV).quantize(

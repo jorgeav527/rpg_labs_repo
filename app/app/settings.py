@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     "projects.apps.ProjectsConfig",
     "tests_labs.apps.TestsLabsConfig",
     "orders.apps.OrdersConfig",
+    "paids.apps.PaidsConfig",
     # Third-Party
     "widget_tweaks",  # django-widget-tweaks
     "django_htmx",  # django-htmx
     "import_export",  # django-import-export
+    "smart_selects",  # django-smart-selects
 ]
 
 AUTH_USER_MODEL = "members.User"
@@ -147,6 +149,8 @@ LOGIN_REDIRECT_URL = "core:home"  # change to desired url name
 LOGOUT_REDIRECT_URL = "core:home"  # change to desired url name
 
 # Django's default message tags do not match perfectly with Bootstrap's
-MESSAGE_TAGS = {
-    messages.ERROR: "danger",
-}
+# MESSAGE_TAGS = {
+#     messages.ERROR: "danger",
+# }
+
+USE_DJANGO_JQUERY = True

@@ -6,7 +6,12 @@ from .models import Company
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ["social_reason", "address", "ruc", "type_company"]
+        fields = [
+            "social_reason",
+            "address",
+            "ruc",
+            "type_company",
+        ]
         labels = {
             "social_reason": "Razón Social",
             "address": "Dirección",

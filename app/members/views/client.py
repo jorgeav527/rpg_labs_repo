@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
+from django.views.decorators.http import require_POST
+
 
 from members.forms import ClientSignUpForm
 from members.models import ClientProfile
@@ -19,68 +22,90 @@ def list_client(request):
     return render(request, "members/client/table.html", context)
 
 
-def update_create_signup_client(request, company_id=None, user_id=None):
-    user_obj = None
-    company_obj = None
-    title = "cotización"
-    section = "registro de clientes"
-    title_head = "re-cli"
-    context = {}
-    # update view
-    if user_id and company_id == None:
-        user_obj = get_object_or_404(USER, id=user_id)
-        form_client_signup = ClientSignUpForm(request.POST or None, instance=user_obj)
-        context["form_client_signup"] = form_client_signup
-        context["user_obj"] = user_obj
-        if request.method == "POST":
-            form_client_signup = ClientSignUpForm(
-                request.POST or None, instance=user_obj
+def create_client(request, company_pk):
+    first_section = "-"
+    second_section = "-"
+    title = "crear cliente/funcionario"
+    company = Company.objects.get(pk=company_pk)
+    if request.method == "POST":
+        form = ClientSignUpForm(request.POST)
+        if form.is_valid():
+            form_instance = form.save(commit=False)
+            form_instance.role = Roles.CLIENT
+            form_instance.set_password(RAW_PASSWORD)
+            form_instance.save()
+            ClientProfile.objects.filter(pk=form_instance.clientprofile.pk).update(
+                company=company
             )
-            if form_client_signup.is_valid():
-                form_client_signup.save()
-                messages.success(
-                    request, f"Usuario registrado como cliente fue actualizado."
-                )
-                return redirect("members:update_signup_client", user_id=user_id)
-            else:
-                messages.error(request, "Algo ocurrio.")
-    # create view
-    if company_id and user_id == None:
-        form_client_signup = ClientSignUpForm()
-        company_obj = Company.objects.get(id=company_id)
-        context["company_obj"] = company_obj
-        context["form_client_signup"] = form_client_signup
-        if request.method == "POST":
-            form_client_signup = ClientSignUpForm(request.POST or None)
-            if form_client_signup.is_valid():
-                f_c_s = form_client_signup.save(commit=False)
-                f_c_s.role = Roles.CLIENT
-                f_c_s.set_password(RAW_PASSWORD)
-                f_c_s.save()
-                ClientProfile.objects.filter(id=f_c_s.clientprofile.id).update(
-                    company=company_obj
-                )
-                messages.success(request, f"Usuario registrado como cliente.")
-                return redirect("members:create_signup_client", company_id=company_id)
-            else:
-                messages.error(request, "Algo ocurrio.")
-
+            return HttpResponse(
+                status=204,
+                headers={"HX-Trigger": "companyListChanged"}
+                # headers={
+                #     "HX-Trigger": json.dumps(
+                #         {
+                #             "movieListChanged": None,
+                #             "showMessage": f"{company.title} added.",
+                #         }
+                #     )
+                # },
+            )
+    else:
+        form = ClientSignUpForm()
     context = {
-        "user_obj": user_obj,
-        "company_obj": company_obj,
-        "form_client_signup": form_client_signup,
+        "form": form,
+        "first_section": first_section,
+        "second_section": second_section,
         "title": title,
-        "section": section,
-        "title_head": title_head,
     }
-    return render(request, "members/client/form_update_create.html", context)
+    return render(request, "members/client/form.html", context)
 
 
-def client_delete(request, user_id):
-    user_obj = get_object_or_404(USER, id=user_id)
-    user_clientprofile_company_id = user_obj.clientprofile.company_id
-    user_obj.delete()
+def update_client(request, user_pk):
+    first_section = "-"
+    second_section = "-"
+    title = "editar cliente/funcionario"
+    client_user = get_object_or_404(USER, pk=user_pk)
+    if request.method == "POST":
+        form = ClientSignUpForm(request.POST, instance=client_user)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(
+                status=204,
+                headers={"HX-Trigger": "companyListChanged"}
+                # headers={
+                #     "HX-Trigger": json.dumps(
+                #         {
+                #             "movieListChanged": None,
+                #             "showMessage": f"{company.title} added.",
+                #         }
+                #     )
+                # },
+            )
+    else:
+        form = ClientSignUpForm(instance=client_user)
+    context = {
+        "form": form,
+        "client_user": client_user,
+        "first_section": first_section,
+        "second_section": second_section,
+        "title": title,
+    }
+    return render(request, "members/client/form.html", context)
 
-    return redirect(
-        "companies:detail_company_hx", company_id=user_clientprofile_company_id
+
+@require_POST
+def delete_client(request, user_pk):
+    user = get_object_or_404(USER, pk=user_pk)
+    user.delete()
+    return HttpResponse(
+        status=204,
+        headers={"HX-Trigger": "companyListChanged"}
+        # headers={
+        #     "HX-Trigger": json.dumps(
+        #         {
+        #             "movieListChanged": None,
+        #             "showMessage": f"{company.title} added.",
+        #         }
+        #     )
+        # },
     )

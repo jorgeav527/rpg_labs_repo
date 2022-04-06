@@ -1,0 +1,84 @@
+{% extends 'layouts/base-full.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title_head %} {{ first_section|upper }} {% endblock %}
+
+{% block main_content %}
+<div class="d-flex justify-content-center py-4">
+    <a href="index.html" class="logo d-flex align-items-center w-auto">
+        <img src="{% static 'assets/img/rpg_md.png' %}" alt="">
+        <span class="d-none d-lg-block">Grupo RPG SAC</span>
+    </a>
+</div><!-- End Logo -->
+
+<div class="card mb-3">
+
+    <div class="card-body">
+
+        <div class="pt-4 pb-2">
+            <h5 class="card-title text-center pb-0 fs-4">{{ title|title }}</h5>
+            <p class="text-center small">Ingresa tu información personal para crear un nuevo administrador.</p>
+        </div>
+
+        {% with WIDGET_ERROR_CLASS='is-invalid' %}
+        <form method="POST" class="row g-3 needs-validation" novalidate>
+            {% csrf_token %}
+            <div class="col-12">
+                <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                {% render_field form.email class="form-control" %}
+                <div class="invalid-feedback">{{ form.email.errors|first }}</div>
+            </div>
+            <div class="col-12">
+                <label for="{{ form.first_name.id_for_label }}" class="form-label">{{ form.first_name.label }}</label>
+                {% render_field form.first_name class="form-control" %}
+                <div class="invalid-feedback">{{ form.first_name.errors|first }}</div>
+            </div>
+            <div class="col-12">
+                <label for="{{ form.last_name.id_for_label }}" class="form-label">{{ form.last_name.label }}</label>
+                {% render_field form.last_name class="form-control" %}
+                <div class="invalid-feedback">{{ form.last_name.errors|first }}</div>
+            </div>
+            <div class="col-12">
+                <label for="{{ form.dni.id_for_label }}" class="form-label">{{ form.dni.label }}</label>
+                {% render_field form.dni class="form-control" %}
+                <div class="invalid-feedback">{{ form.dni.errors|first }}</div>
+            </div>
+            <div class="col-12">
+                <label for="{{ form.profession.id_for_label }}" class="form-label">{{ form.profession.label }}</label>
+                {% render_field form.profession class="form-control" %}
+                <div class="invalid-feedback">{{ form.profession.errors|first }}</div>
+            </div>
+            <div class="col-12">
+                <label for="{{ form.cell_phone.id_for_label }}" class="form-label">{{ form.cell_phone.label }}</label>
+                {% render_field form.cell_phone class="form-control" %}
+                <div class="invalid-feedback">{{ form.cell_phone.errors|first }}</div>
+            </div>
+            <div class="col-12">
+                <label for="{{ form.password1.id_for_label }}" class="form-label">{{ form.password1.label }}</label>
+                {% render_field form.password1 class="form-control" %}
+                <div class="invalid-feedback">{{ form.password1.errors|first }}</div>
+            </div>
+            <div class="col-12">
+                <label for="{{ form.password2.id_for_label }}" class="form-label">{{ form.password2.label }}</label>
+                {% render_field form.password2 class="form-control" %}
+                <div class="invalid-feedback">{{ form.password2.errors|first }}</div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary w-100" type="submit">Crear Usuario</button>
+            </div>
+            <div class="col-12">
+                <p class="small mb-0">Esta registrado como Administrador?<a href="{% url 'members:login' %}"> Entrar</a></p>
+            </div>
+        </form>
+        {% endwith %}
+
+    </div>
+</div>
+{% endblock main_content %}
+
+
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

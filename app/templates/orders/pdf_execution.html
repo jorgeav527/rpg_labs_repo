@@ -7,26 +7,26 @@
 <table width="100%">
     <tr>
         <td>
-            <p>OBRA/PROYECTO: <span>{{ order_obj.project.name }}</span></p>
+            <p>OBRA/PROYECTO: <span>{{ order_obj.order_quatotion.project.name }}</span></p>
         </td>
     </tr>
     <tr>
         <td>
-            <p>SOLICITANTE/PROPIETARIO: <span>{{ order_obj.company.social_reason|upper }}</span></p>
+            <p>SOLICITANTE/PROPIETARIO: <span>{{ order_obj.order_quatotion.company.social_reason|upper }}</span></p>
         </td>
     </tr>
     <tr>
         <td>
-            <p>UBICACIÓN: <span>{{ order_obj.project.location }}</span></p>
+            <p>UBICACIÓN: <span>{{ order_obj.order_quatotion.project.location }}</span></p>
         </td>
     </tr>
     <table>
         <tr>
             <td width="65%">
-                <p>FECHA DE EMISIÓN: <span>{{ order_obj.updated|date:"d/m/Y" }}</span></p>
+                <p>FECHA DE EMISIÓN: <span>{{ order_obj.created|date:"d/m/Y" }}</span></p>
             </td>
             <td width="35%">
-                <p>COTIZACIÓN: <span>{{ order_obj.date_cost_quatotion_create }}</span></p>
+                <p>COTIZACIÓN: <span>{{ order_obj.order_quatotion.created|date:"Ymd" }}-{{ order_obj.order_quatotion.pk }}</span></p>
             </td>
         </tr>
     </table>
@@ -38,26 +38,26 @@
             <p>FACTURACIÓN</p>
         </td>
         <td width="53%">
-            <p>RAZÓN SOCIAL: <span>{{ order_obj.company.social_reason|upper }}</span></p>
+            <p>RAZÓN SOCIAL: <span>{{ order_obj.order_quatotion.company.social_reason|upper }}</span></p>
         </td>
         <td width="35%">
-            <p>CONTACTO: <span>{{ order_obj.client.user.profession|title }} {{ order_obj.client.user.get_full_name|title }}</span></p>
+            <p>CONTACTO: <span>{{ order_obj.order_quatotion.client.user.profession|title }} {{ order_obj.order_quatotion.client.user.get_full_name|title }}</span></p>
         </td>
     </tr>
     <tr>
         <td>
-            <p>DIRECCIÓN: <span>{{ order_obj.company.address|upper }}</span></p>
+            <p>DIRECCIÓN: <span>{{ order_obj.order_quatotion.company.address|upper }}</span></p>
         </td>
         <td>
-            <p>E MAIL: <span>{{ order_obj.client.user.email }}</span></p>
+            <p>E MAIL: <span>{{ order_obj.order_quatotion.client.user.email }}</span></p>
         </td>
     </tr>
     <tr>
         <td>
-            <p>RUC: <span>{{ order_obj.company.ruc }}</span></p>
+            <p>RUC: <span>{{ order_obj.order_quatotion.company.ruc }}</span></p>
         </td>
         <td>
-            <p>CELULAR: <span>{{ order_obj.client.user.cell_phone }}</span></p>
+            <p>CELULAR: <span>{{ order_obj.order_quatotion.client.user.cell_phone|default_if_none:"" }}</span></p>
         </td>
     </tr>
 </table>
@@ -73,20 +73,20 @@
         <th width="8%">PARCIAL INC. IGV</th>
         <th width="10%">MUESTREO GRUPO RPG</th>
     </tr>
-    {% for order_item in order_obj.order_items.all %}
+    {% for order_item in order_obj.orderitemexecution_set.all %}
     <tr>
         <td align="center">{{ forloop.counter }}</td>
-        <td align="center">{{ order_item.characteristictestlab.matrix }}</td>
-        <td>{{ order_item.test_lab.name_test }}. {{ order_item.test_lab.basic_norm }}</td>
-        <td align="center">{{ order_item.test_lab.unit }}</td>
+        <td align="center">{{ order_item.characteristic_testlab.matrix }}</td>
+        <td>{{ order_item.testlab.name_test }} {{ order_item.testlab.basic_norm }}</td>
+        <td align="center">{{ order_item.get_unit_display }}</td>
         <td align="center">{{ order_item.quantity }}</td>
         <td align="center">S/.{{ order_item.price }}</td>
         <td align="center">S/.{{ order_item.get_partial_igv }}</td>
-        {% if order_item.sampling_by is True %}
+        {% if order_item.sampling_by == "SI" %}
         <td align="center">SI</td>
-        {% elif order_item.sampling_by is False %}
+        {% elif order_item.sampling_by == "NO" %}
         <td align="center">NO</td>
-        {% elif order_item.sampling_by is None %}
+        {% elif order_item.sampling_by == "N/A" %}
         <td align="center">N/A</td>
         {% endif %}
     </tr>
@@ -96,13 +96,13 @@
 <table style="width:100%">
     <tr>
         <td rowspan="5" width="58%">
-            <p>OBSERVACIONES: <span>{% lorem 40 w %}</span></p>
+            <p>OBSERVACIONES: <span>{{ order_obj.observation|default_if_none:"Ninguna." }}</span></p>
         </td>
         <th width="24%" align="center">
             <p>Parcial: </p>
         </th>
         <td width="12%" align="center">
-            <span>S/.{{ order_obj.get_sub_total }}</span>
+            <span>S/.{{ order_obj.get_sub_total_execution }}</span>
         </td>
     </tr>
     <tr>
@@ -118,7 +118,7 @@
             <p>TOTAL SIN IGV 18%:</p>
         </th>
         <td align="center">
-            <span>S/.{{ order_obj.get_total_not_igv }}</span>
+            <span>S/.{{ order_obj.get_total_not_igv_execution }}</span>
         </td>
     </tr>
     <tr>
@@ -126,7 +126,7 @@
             <p>IGV 18%:</p>
         </th>
         <td align="center">
-            <span>S/.{{ order_obj.get_igv }}</span>
+            <span>S/.{{ order_obj.get_igv_execution }}</span>
         </td>
     </tr>
     <tr>
@@ -134,7 +134,97 @@
             <p>TOTAL inc. IGV 18%</p>
         </th>
         <td align="center">
-            <span>S/.{{ order_obj.get_total_igv }}</span>
+            <span>S/.{{ order_obj.get_total_igv_execution }}</span>
+        </td>
+    </tr>
+</table>
+<br>
+<table style="border: none;">
+    <tr style="border: none;">
+        <td style="border: none;" width="70%">
+            <table>
+                <tr>
+                    <th rowspan="3" width="40%" align="center">
+                        <p>NÚMEROS DE CUENTAS PARA DEPÓSITO GRUPO RPG SAC RUC 20600340108</p>
+                    </th>
+                    <td width="60%">
+                        <span>Cuenta corriente Soles Banco Scotiabank: 0008498130</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>CCI Soles Scotia Bank: : 009 - 655 - 000008498130 - 27</span>
+                    </td> 
+                </tr>
+                <tr>
+                    <td>
+                        <span>Cuenta Detracciones Banco de la Nación: 00 - 101 - 474062</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="center">
+                        <p>TOTAL COTIZADO:</p>
+                    </th>
+                    <td>
+                        <span>S/. {{  order_obj.order_quatotion.get_total_igv_quatotion }} (COT-{{  order_obj.order_quatotion.created|date:"Ymd" }}-{{  order_obj.order_quatotion.pk }})</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="center">
+                        <p>VARIACIÓN: TC - OE:</p>
+                    </th>
+                    <td>
+                        <span>S/. {{  order_obj.get_diference_quatotion_execution }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="center">
+                        <p>VALIDEZ DE COTIZACIÓN:</p>
+                    </th>
+                    <td>
+                        <span>15 DÍAS CALENDARIOS</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th align="center">
+                        <p>PLAZO DE EJECUCIÓN:</p>
+                    </th>
+                    <td>
+                        <span>10 DÍAS (NO INC. SÁBADOS Y DOMINGOS)</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td style="border: none;" width="30%">
+            <table>
+                <tr>
+                    <th colspan="3">CONTROL DE PAGOS REALIZADOS A LA FECHA:</th>
+                </tr>
+                <tr>
+                    <th width="25%">PAGO</th>
+                    <th width="35%">PORCENTAJE</th>
+                    <th width="40%">MONTO</th>
+                </tr>
+                {% for paid_item in order_obj.paiditemexecution_set.all %}
+                <tr>
+                    <td align="center">Nº{{ forloop.counter }}</td>
+                    <td align="center">{{ paid_item.percentage }} %</td>
+                    <td align="center">S/. {{ paid_item.get_price }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td align="center">Total</td>
+                    <td align="center">{{ order_obj.get_total_paid_percentage }} %</td>
+                    <td align="center">S/. {{ order_obj.get_total_paid }}</td>
+                </tr>
+                <tr>
+                    <th colspan="3">SALDO:</th>
+                </tr>
+                <tr>
+                    <th colspan="2">SALDO A CANCELAR:</th>
+                    <td align="center">S/. {{ order_obj.get_debt_paid }}</td>
+                </tr>
+            </table>
         </td>
     </tr>
 </table>

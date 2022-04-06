@@ -6,7 +6,10 @@ from projects.models import Project
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ["name", "location"]
+        fields = [
+            "name",
+            "location",
+        ]
         labels = {
             "name": "Nombre del Proyecto",
             "location": "Ubicación del Proyecto",

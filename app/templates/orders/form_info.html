@@ -1,0 +1,158 @@
+{% extends "layouts/base.html" %}
+{% load widget_tweaks %}
+
+{% block title_head %} {{ first_section|upper }} {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    button.is-link {
+        display: block;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block main_content %}
+<div class="pagetitle">
+    <h1>{{ title|title }}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">{{ first_section|capfirst }}</a></li>
+            <li class="breadcrumb-item active">{{ second_section|capfirst }}</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<!-- [ Main Content ] start -->
+<section class="section">
+    {% with WIDGET_ERROR_CLASS='is-invalid' %}
+    <form method="POST">
+    <div class="row">
+            {% csrf_token %}
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ second_section|upper }}</h5>
+
+                        <!-- Horizontal Form -->
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="{{ form.responsible.id_for_label }}"
+                                    class="form-label">{{ form.responsible.label }}</label>
+                                {% render_field form.responsible class="form-control" %}
+                                <div class="invalid-feedback">{{ form.responsible.errors|first }}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="{{ form.riic.id_for_label }}"
+                                    class="form-label">{{ form.riic.label }}</label>
+                                {% render_field form.riic class="form-control" %}
+                                <div class="invalid-feedback">{{ form.riic.errors|first }}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="{{ form.remseg.id_for_label }}"
+                                    class="form-label">{{ form.remseg.label }}</label>
+                                {% render_field form.remseg class="form-control" %}
+                                <div class="invalid-feedback">{{ form.remseg.errors|first }}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="{{ form.rlras.id_for_label }}"
+                                    class="form-label">{{ form.rlras.label }}</label>
+                                {% render_field form.rlras class="form-control" %}
+                                <div class="invalid-feedback">{{ form.rlras.errors|first }}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="{{ form.observation.id_for_label }}"
+                                    class="form-label">{{ form.observation.label }}</label>
+                                {% render_field form.observation class="form-control" %}
+                                <div class="invalid-feedback">{{ form.observation.errors|first }}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="{{ form.rirs.id_for_label }}"
+                                    class="form-label">{{ form.rirs.label }}</label>
+                                {% render_field form.rirs class="form-control" %}
+                                <div class="invalid-feedback">{{ form.rirs.errors|first }}</div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="{{ form.recl.id_for_label }}"
+                                    class="form-label">{{ form.recl.label }}</label>
+                                {% render_field form.recl class="form-control" %}
+                                <div class="invalid-feedback">{{ form.recl.errors|first }}</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ second_section|upper }}</h5>
+
+                        <!-- Multi Columns Form -->
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <div class="form-check">
+                                    {% render_field form.question_1 class="form-check-input" %}
+                                    <label class="form-check-label"
+                                        for="{{ form.question_1.id_for_label }}">{{ form.question_1.label }}</label>
+                                </div>
+                                <div class="form-check">
+                                    {% render_field form.question_2 class="form-check-input" %}
+                                    <label class="form-check-label"
+                                        for="{{ form.question_2.id_for_label }}">{{ form.question_2.label }}</label>
+                                </div>
+                                <div class="form-check">
+                                    {% render_field form.question_3 class="form-check-input" %}
+                                    <label class="form-check-label"
+                                        for="{{ form.question_3.id_for_label }}">{{ form.question_3.label }}</label>
+                                </div>
+                                <div class="form-check">
+                                    {% render_field form.question_4 class="form-check-input" %}
+                                    <label class="form-check-label"
+                                        for="{{ form.question_4.id_for_label }}">{{ form.question_4.label }}</label>
+                                </div>
+                                <div class="form-check">
+                                    {% render_field form.question_5 class="form-check-input" %}
+                                    <label class="form-check-label"
+                                        for="{{ form.question_5.id_for_label }}">{{ form.question_5.label }}</label>
+                                </div>
+                                <div class="form-check">
+                                    {% render_field form.question_6 class="form-check-input" %}
+                                    <label class="form-check-label"
+                                        for="{{ form.question_6.id_for_label }}">{{ form.question_6.label }}</label>
+                                </div>
+                                <div class="form-check">
+                                    {% render_field form.question_7 class="form-check-input" %}
+                                    <label class="form-check-label"
+                                        for="{{ form.question_7.id_for_label }}">{{ form.question_7.label }}</label>
+                                </div>
+                                <div class="form-check">
+                                    {% render_field form.question_8 class="form-check-input" %}
+                                    <label class="form-check-label"
+                                        for="{{ form.question_8.id_for_label }}">{{ form.question_8.label }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="{{ form.obs.id_for_label }}" class="form-label">{{ form.obs.label }}</label>
+                                {% render_field form.obs class="form-control" placeholder="Con respecto a la pregunta ?.- se tienen las siguientes observaciones" %}
+                                <div class="invalid-feedback">{{ form.obs.errors|first }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a type="button" class="btn btn-danger" href="{% url 'core:requirement' %}">Cancelar</a>
+    </form><!-- End Horizontal Form -->
+    {% endwith %}
+</section>
+<!-- [ Main Content ] end -->
+{% endblock main_content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

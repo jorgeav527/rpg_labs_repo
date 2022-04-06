@@ -13,6 +13,8 @@ class Professions(models.TextChoices):
     NONE = None, "Escoje la Profesión"
     ENGINEER = "ING", "Ingeníero"
     TECHNICIAN = "TEC", "Técnico"
+    ARCHITECT = "ARQ", "Arquitecto"
+    OPERATOR = "OPE", "Operario"
     MISTER_MISSES = "SR_a", "Señor(a)"
 
 

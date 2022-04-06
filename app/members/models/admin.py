@@ -12,10 +12,12 @@ class AdminProfile(models.Model):
         verbose_name="related admin profile",
     )
     charge = models.CharField(
-        max_length=10, choices=Charges.choices, default=Charges.NONE
+        max_length=10,
+        choices=Charges.choices,
+        default=Charges.NONE,
     )
-    created = models.DateTimeField(verbose_name="created at", auto_now_add=True)
-    updated = models.DateTimeField(verbose_name="updated at", auto_now=True)
+    created = models.DateTimeField("created at", auto_now_add=True)
+    updated = models.DateTimeField("updated at", auto_now=True)
 
     def __str__(self):
         return f"Admin {self.user}"

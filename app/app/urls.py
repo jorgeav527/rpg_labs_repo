@@ -26,6 +26,7 @@ urlpatterns = [
     path("tests-labs/", include("tests_labs.urls", namespace="tests_labs")),
     path("orders/", include("orders.urls", namespace="orders")),
     path("admin/", admin.site.urls),
+    path("chaining/", include("smart_selects.urls")),
 ]
 
 if settings.DEBUG:

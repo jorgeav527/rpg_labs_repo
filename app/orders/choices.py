@@ -27,3 +27,9 @@ class TypeLegalRequirements(models.TextChoices):
     )
     NO_INDICA = "NO_INDICA", "NO INDICA"
     OTROS_ESPECIFIQUE = "OTROS_ESPECIFIQUE", "OTROS ESPECIFIQUE"
+
+
+class YesNoUnknown(models.TextChoices):
+    NA = "N/A", "N/A"
+    TRUE = "SI", "SI"
+    FALSE = "NO", "NO"

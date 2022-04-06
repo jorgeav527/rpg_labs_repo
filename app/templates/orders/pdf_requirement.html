@@ -69,18 +69,18 @@
         <th width="60%">ENSAYOS SOLICITADOS</th>
         <th width="20%">CONDICIONES PARTICULARES PARA REALIZAR ANÁLISIS Y ENSAYOS</th>
     </tr>
-    {% for order_item in order_obj.order_items.all %}
+    {% for order_item in order_obj.orderitemquatotion_set.all %}
     <tr>
         <td align="center">{{ forloop.counter }}</td>
-        {% if order_item.sampling_by is True %}
-        <td align="center">Muestreo realizado por RPG</td>
-        {% elif order_item.sampling_by is False %}
+        {% if order_item.sampling_by == "SI" %}
+        <td align="center">Muestreado realizado por RPG</td>
+        {% elif order_item.sampling_by == "NO" %}
         <td align="center">Proporcionada por el Cliente</td>
-        {% elif order_item.sampling_by is None %}
+        {% elif order_item.sampling_by == "N/A" %}
         <td align="center">N/A</td>
         {% endif %}
-        <td>{{ order_item.characteristictestlab.matrix }} - {{ order_item.test_lab.name_test }}. {{ order_item.test_lab.basic_norm }}</td>
-        <td align="center">-</td>
+        <td>{{ order_item.characteristic_testlab.matrix }} - {{ order_item.testlab.name_test }}. {{ order_item.testlab.basic_norm }}</td>
+        <td align="center">{{ order_item.obs }}.</td>
     </tr>
     {% endfor %}
 </table>
@@ -93,7 +93,7 @@
     </tr>
     <tr>
         <td>
-            <p>RESPONSABLE DEL MUESTREO: <span>{{ order_obj.order_info.get_responsible_display }}</span></p>
+            <p>RESPONSABLE DEL MUESTREO: <span>{{ order_obj.orderinfo.get_responsible_display }}</span></p>
         </td>
     </tr>
     <tr>
@@ -103,7 +103,7 @@
     </tr>
     <tr>
         <td>
-            <p><span>{{ order_obj.order_info.riic }}</span></p>
+            <p><span>{{ order_obj.orderinfo.riic }}</span></p>
         </td>
     </tr>
     <tr>
@@ -113,7 +113,7 @@
     </tr>
     <tr>
         <td>
-            <p><span>{{ order_obj.order_info.remseg }}.</span></p>
+            <p><span>{{ order_obj.orderinfo.remseg|default_if_none:"Ninguna." }}</span></p>
         </td>
     </tr>
     <tr>
@@ -123,7 +123,7 @@
     </tr>
     <tr>
         <td>
-            <p><span>{{ order_obj.order_info.remseg }}.</span></p>
+            <p><span>{{ order_obj.orderinfo.remseg|default_if_none:"Ninguna." }}</span></p>
         </td>
     </tr>
     <tr>
@@ -133,7 +133,7 @@
     </tr>
     <tr>
         <td>
-            <p><span>{{ order_obj.order_info.get_rlras_display }}.</span></p>
+            <p><span>{{ order_obj.orderinfo.get_rlras_display }}.</span></p>
         </td>
     </tr>
     <tr>
@@ -143,21 +143,111 @@
     </tr>
     <tr>
         <td>
-            <p><span>{{ order_obj.order_info.observation }}.</span></p>
+            <p><span>{{ order_obj.orderinfo.observation|default_if_none:"Ninguna." }}</span></p>
         </td>
     </tr>
-    <tr>
-        <th align="center">
-            RESPONSABLE DE LA IDENTIFICACIÓN DE LOS REQUISITOS DEL SERVICIO
-        </th>
-    </tr>
+ 
+    <table>
+        <tr>
+            <th colspan="3" align="center">
+                VERIFICACIÓN DE CAPACIDAD DEL LABORATORIO
+            </th>
+        </tr>
+        <tr>
+            <th width="55%" align="center">
+                Aspecto a verificar
+            </th>
+            <th width="10%" align="center">
+                Si o No
+            </th>
+            <th width="35%" align="center">
+                Observaciones
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <span>1.-¿El Laboratorio tiene capacidades para aplicar el método requerido?</span>
+            </td>
+            <td align="center">
+                <span>{% if order_obj.orderinfo.question_1 %}Si{% else %}No{% endif %}</span>
+            </td>
+            <td rowspan="8">
+                <span >{{ order_obj.orderinfo.obs|default_if_none:"Ninguna." }}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>2.-¿El Laboratorio cuenta con el equipo necesario para realizar el servicio?</span>
+            </td>
+            <td align="center">
+                <span>{% if order_obj.orderinfo.question_2 %}Si{% else %}No{% endif %}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>3.-¿El Laboratorio cuenta con personal competente y disponible para realizar el servicio?</span>
+            </td>
+            <td align="center">
+                <span>{% if order_obj.orderinfo.question_3 %}Si{% else %}No{% endif %}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>4.-¿El Laboratorio dispone del tiempo suficiente para realizar el servicio?</span>
+            </td>
+            <td align="center">
+                <span>{% if order_obj.orderinfo.question_4 %}Si{% else %}No{% endif %}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>5.-¿Es necesario subcontratar la totalidad o parte del servicio?</span>
+                <span>(Indicar en el campo observaciones el motivo y el servicio que se requiere contratar)</span>
+            </td>
+            <td align="center">
+                <span>{% if order_obj.orderinfo.question_5 %}Si{% else %}No{% endif %}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>6.-¿El método a utilizar es apropiado para el servicio solicitado?</span>
+            </td>
+            <td align="center">
+                <span>{% if order_obj.orderinfo.question_6 %}Si{% else %}No{% endif %}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>7.-¿El servicio ofrecido está acreditado?</span>
+            </td>
+            <td align="center">
+                <span>{% if order_obj.orderinfo.question_7 %}Si{% else %}No{% endif %}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>8.-¿En términos generales, el laboratorio cuenta con la capacidad para cumplir con los requisitos de los servicios?</span>
+            </td>
+            <td align="center">
+                <span>{% if order_obj.orderinfo.question_8 %}Si{% else %}No{% endif %}</span>
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th align="center">
+                RESPONSABLE DE LA IDENTIFICACIÓN DE LOS REQUISITOS DEL SERVICIO
+            </th>
+        </tr>
+    </table>
     <table>
         <tr>
             <td width="55%">
-                <p>NOMBRE: <span>{{ order_obj.order_info.rirs.user.profession|title }}. {{ order_obj.order_info.rirs.user.get_full_name|title }}</span></p>
+                <p>NOMBRE: <span>{{ order_obj.orderinfo.rirs.user.profession|title }}. {{ order_obj.orderinfo.rirs.user.get_full_name|title }}</span></p>
             </td>
             <td width="45%">
-                <p>CARGO: <span>{{ order_obj.order_info.rirs.user.adminprofile.get_charge_display|title }}</span></p>
+                <p>CARGO: <span>{{ order_obj.orderinfo.rirs.user.adminprofile.get_charge_display|title }}</span></p>
             </td>
         </tr>
     </table>
@@ -171,10 +261,10 @@
     <table>
         <tr>
             <td width="55%">
-                <p>NOMBRE: <span>{{ order_obj.order_info.recl.user.profession|title }}. {{ order_obj.order_info.recl.user.get_full_name|title }}</span></p>
+                <p>NOMBRE: <span>{{ order_obj.orderinfo.recl.user.profession|title }}. {{ order_obj.orderinfo.recl.user.get_full_name|title }}</span></p>
             </td>
             <td width="45%">
-                <p>CARGO: <span>{{ order_obj.order_info.recl.user.adminprofile.get_charge_display|title }}</span></p>
+                <p>CARGO: <span>{{ order_obj.orderinfo.recl.user.adminprofile.get_charge_display|title }}</span></p>
             </td>
         </tr>
     </table>

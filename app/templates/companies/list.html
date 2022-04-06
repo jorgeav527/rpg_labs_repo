@@ -1,0 +1,35 @@
+{% for company in list_companies %}
+<tr id="company-{{ company.pk }}">
+    <td>{{ company.pk }}-{{ forloop.revcounter }}</td>
+    <td>{{ company.social_reason }}</td>
+    <td>{{ company.address }}</td>
+    <td>{{ company.ruc }}</td>
+    <td>{{ company.get_type_company_display }}</td>
+    <td>
+        <button type="button" class="btn btn-secondary btn-sm"
+            hx-get="{% url 'members:create_client' company_pk=company.pk %}"
+            hx-target="#dialog">
+            <i class="bi bi-node-plus-fill me-1"></i><span class="badge bg-white text-secondary">{{ company.clientprofile_set.count }}</span>
+        </button>
+    </td>
+    <td>
+        <button type="button" class="btn btn-secondary btn-sm"
+            hx-get="{% url 'projects:create_project' company_pk=company.pk %}"
+            hx-target="#dialog">
+            <i class="bi bi-node-plus-fill me-1"></i><span class="badge bg-white text-secondary">{{ company.project_set.count }}</span>
+        </button>
+    </td>
+    <td>
+        <button type="button" class="btn btn-warning btn-sm"
+            hx-get="{% url 'companies:update_company' company_pk=company.pk %}" 
+            hx-target="#dialog">
+            <i class="bi bi-exclamation-triangle me-1"></i></i> Editar
+        </button>
+        <button type="button" class="btn btn-info btn-sm"
+            hx-get="{% url 'companies:detail_company'  company_pk=company.pk %}"
+            hx-target="#dialog">
+            <i class="bi bi-info-circle"></i> Info
+        </button>
+    </td>
+</tr>
+{% endfor %}

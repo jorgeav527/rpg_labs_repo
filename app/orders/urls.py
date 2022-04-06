@@ -5,52 +5,83 @@ from orders import views
 app_name = "orders"
 
 urlpatterns = [
-    # order
-    path("list/", views.list_order, name="list_order_hx"),
-    path("create-order/", views.create_order, name="create_order"),
-    path("update-order/<int:order_id>/", views.update_order, name="update_order"),
-    path("delete-order/<int:order_id>/", views.delete_order, name="delete_order_hx"),
+    # ORDER QUATOTION
     path(
-        "pdf-cost-quatotion-order/<int:order_id>/",
-        views.pdf_cost_quatotion_order,
-        name="pdf_cost_quatotion_order",
+        "list-quatotion/",
+        views.list_order_quatotion,
+        name="list_order_quatotion",
     ),
     path(
-        "pdf-cost-requirement-order/<int:order_id>/",
+        "create-quatotion/",
+        views.create_order_quatotion,
+        name="create_order_quatotion",
+    ),
+    path(
+        "update-quatotion/<int:order_quatotion_pk>/",
+        views.update_order_quatotion,
+        name="update_order_quatotion",
+    ),
+    path(
+        "delete-quatotion/<int:order_quatotion_pk>/",
+        views.delete_order_quatotion,
+        name="delete_order_quatotion",
+    ),
+    path(
+        "orderitemquatotion_set/testlab/unit_quantity_price/",  # be carefull about the _ because of the http request htmx
+        views.quatotion_testlab_unit_quantity_price,
+        name="quatotion_testlab_unit_quantity_price",
+    ),
+    path(
+        "pdf/quatotion/<int:order_quatotion_pk>/",
+        views.pdf_quatotion_order,
+        name="pdf_quatotion_order",
+    ),
+    path(
+        "pdf/requirement/<int:order_quatotion_pk>/",
         views.pdf_requirement_order,
         name="pdf_requirement_order",
     ),
+    # ORDER EXECUTION
     path(
-        "pdf-execution-order/<int:order_id>/",
+        "edit-execution/<int:order_execution_pk>/",
+        views.edit_order_execution,
+        name="edit_order_execution",
+    ),
+    path(
+        "orderitemexecution_set/testlab/unit_quantity_price/",  # be carefull about the _ because of the http request htmx
+        views.execution_test_lab_unit_quantity_price,
+        name="execution_test_lab_unit_quantity_price",
+    ),
+    path(
+        "pdf/execution/<int:order_execution_pk>/",
         views.pdf_execution_order,
         name="pdf_execution_order",
     ),
+    # ORDER LIQUIDATION
     path(
-        "pdf-liquidation-order/<int:order_id>/",
+        "edit-liquidation/<int:order_liquidation_pk>/",
+        views.edit_order_liquidation,
+        name="edit_order_liquidation",
+    ),
+    path(
+        "orderitemliquidation_set/testlab/unit_quantity_price/",  # be carefull about the _ because of the http request htmx
+        views.liquidation_testlab_unit_quantity_price,
+        name="liquidation_testlab_unit_quantity_price",
+    ),
+    path(
+        "pdf/liquidation/<int:order_liquidation_pk>/",
         views.pdf_liquidation_order,
         name="pdf_liquidation_order",
     ),
-    # orderitems
-    path("add-row/", views.create_order_item_row, name="create_order_item_row_hx"),
+    # ORDER INFO
     path(
-        "delete-row/<int:order_item_id>/",
-        views.delete_order_item_row,
-        name="delete_order_item_row_hx",
+        "edit-info/<int:order_quatotion_pk>",
+        views.edit_order_quatotion_info,
+        name="edit_order_quatotion_info",
     ),
-    # be carefull about the _ because of the http request htmx
     path(
-        "characteristic/test_lab/",
-        views.characteristic_test_lab,
-        name="characteristic_test_lab_hx",
-    ),
-    path("test_lab/price/", views.test_lab_price, name="test_lab_price_hx"),
-    path(
-        "company/project/client/",
-        views.company_project_client,
-        name="company_project_client_hx",
-    ),
-    # orderinfo
-    path(
-        "order-info/<int:order_id>", views.update_order_info, name="update_order_info"
+        "searchlist_order_quatotion/",
+        views.search_list_order_quatotion,
+        name="search_list_order_quatotion",
     ),
 ]

@@ -1,43 +1,46 @@
 from django.contrib import admin
 
-from orders.models import Order, OrderItems, OrderInfo
+from orders.models import (
+    OrderQuatotion,
+    OrderExecution,
+    OrderLiquidation,
+    OrderInfo,
+    OrderItemQuatotion,
+    OrderItemExecution,
+    OrderItemLiquidation,
+)
 
 
-class OrderItemsInline(admin.TabularInline):
-    model = OrderItems
-    extra = 1
+@admin.register(OrderQuatotion)
+class OrderQuatotionAdmin(admin.ModelAdmin):
+    pass
 
 
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "discount",
-        "get_sub_total",
-        "get_total_not_igv",
-        "get_igv",
-        "get_total_igv",
-        "created",
-        "updated",
-    )
-    inlines = (OrderItemsInline,)
+@admin.register(OrderExecution)
+class OrderExecutionAdmin(admin.ModelAdmin):
+    pass
 
 
-@admin.register(OrderItems)
-class OrderItemsAdmin(admin.ModelAdmin):
-    list_display = ("id", "order", "test_lab", "quantity", "price", "get_partial_igv")
+@admin.register(OrderLiquidation)
+class OrderLiquidationAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(OrderInfo)
-class OrderItemsAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "order",
-        "responsible",
-        "riic",
-        "remseg",
-        "rlras",
-        "observation",
-        "rirs",
-        "recl",
-    )
+class OrderInfoAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrderItemQuatotion)
+class OrderItemQuatotionAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrderItemExecution)
+class OrderItemExecutionAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrderItemLiquidation)
+class OrderItemLiquidationAdmin(admin.ModelAdmin):
+    pass

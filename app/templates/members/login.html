@@ -1,84 +1,54 @@
-{% extends "layouts/base-fullscreen.html" %}
-{% load widget_tweaks %}
+{% extends 'layouts/base-full.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
-{% block title %} {{title_page|upper}}  {% endblock %}
 
-{% block content %} 
+{% block title_head %} {{ first_section|upper }} {% endblock %}
 
-	<!-- [ auth-signin ] start -->
-	<div class="auth-wrapper">
-		<div class="auth-content">
-			<div class="card">
-				<div class="row align-items-center text-center">
-					<div class="col-md-12">
-						<div class="card-body">
+{% block main_content %}
+<div class="d-flex justify-content-center py-4">
+    <a href="index.html" class="logo d-flex align-items-center w-auto">
+        <img src="{% static 'assets/img/rpg_md.png' %}" alt="">
+        <span class="d-none d-lg-block">Grupo RPG SAC</span>
+    </a>
+</div><!-- End Logo -->
 
-							<img src="{% static 'assets/images/logo.jpeg' %}" alt="" class="img-fluid mb-4" width="167px" height="33px">
-							<h4 class="mb-3 f-w-400">
-								{{ title | title }}
-							</h4>
+<div class="card mb-3">
 
-							{% include 'includes/messages.html' %}
+    <div class="card-body">
 
-							<!-- dummy spacer -->
-							<p> <br /> </p>
+        <div class="pt-4 pb-2">
+            <h5 class="card-title text-center pb-0 fs-4">{{ title|title }}</h5>
+            <p class="text-center small">Ingresa tu información personal para crear un nuevo administrador.</p>
+        </div>
 
-							<form role="form" method="POST">
-
-								{% csrf_token %} 
-
-								<div class="mb-3">
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"><i class="feather icon-at-sign"></i></span>
-										</div>
-										{% render_field form.email class="form-control" placeholder=form.email.label %}
-									</div>
-									<small class="form-text text-muted">{{ form.email.help_text }}</small>
-									{% for error in form.email.errors %}
-									<p class="form-text text-danger">{{ error }}</p>
-									{% endfor %}
-								</div>
-	
-								<div class="mb-3">
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"><i class="feather icon-lock"></i></span>
-										</div>
-										{% render_field form.password class="form-control" placeholder=form.password.label %}
-									</div>
-									<small class="form-text text-muted">{{ form.password.help_text }}</small>
-									{% for error in form.password.errors %}
-									<p class="form-text text-danger">{{ error }}</p>
-									{% endfor %}
-								</div>								
-
-								<div class="form-group text-left mt-2">
-									<div class="checkbox checkbox-primary d-inline">
-										<input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">
-										<label for="checkbox-fill-a1" class="cr"> Guardar credenciales</label>
-									</div>
-								</div>
-								<button type="submit" name="login" class="btn btn-block btn-primary mb-4">Ingresar</button>
-							
-							</form>
-
-							<p class="mb-0 text-muted">Aún sin usuario? <a href="{% url 'members:signup_admin' %}" class="f-w-400">Registrarme como administrador</a></p>
-
-						</div>
-					</div>
+        {% with WIDGET_ERROR_CLASS='is-invalid' %}
+        <form method="POST" class="row g-3 needs-validation" novalidate>
+            {% csrf_token %}
+			<div class="col-12">
+				<label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+				<div class="input-group has-validation">
+					<span class="input-group-text" id="inputGroupPrepend">@</span>
+					{% render_field form.email class="form-control" placeholder=form.email.label %}
+					<div class="invalid-feedback">{{ form.email.errors|first }}</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<!-- [ auth-signin ] end -->
 
-{% endblock content %}
+			<div class="col-12">
+				<label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label }}</label>
+				{% render_field form.password class="form-control" placeholder=form.password.label %}
+				<div class="invalid-feedback">{{ form.password.errors|first }}</div>
+			</div>
+			
+            <div class="col-12">
+                <button class="btn btn-primary w-100" type="submit">Ingresar</button>
+            </div>
+            <div class="col-12">
+                <p class="small mb-0">Esta registrado como Administrador?<a href="{% url 'members:signup_admin' %}"> Registro Administrador</a></p>
+            </div>
+        </form>
+        {% endwith %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-
-	<script src="/static/assets/js/waves.min.js"></script>
-
-{% endblock javascripts %} 
+    </div>
+</div>
+{% endblock main_content %}

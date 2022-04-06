@@ -10,4 +10,6 @@ docker-compose -f docker-compose-dev.yml run --rm app sh -c "python manage.py co
 docker-compose -f docker-compose-dev.yml run app python manage.py makemigrations
 docker-compose -f docker-compose-dev.yml run app python manage.py migrate
 docker-compose -f docker-compose-dev.yml up
-docker-compose -f docker-compose-dev.yml exec db psql --username=hello_django --dbname=hello_django_dev
+docker-compose -f docker-compose-dev.yml exec db psql --username=devuser --dbname=devddb
+
+apt-get update && apt-get install -y --no-install-recommends -o APT::Immediate-Configure=false gcc g++ && \

@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.http import HttpResponse
+from django.views.decorators.http import require_POST
 
 from companies.forms import CompanyForm
 from companies.models import Company
@@ -15,68 +17,94 @@ def list_company(request):
     context = {
         "list_companies": list_companies,
     }
-    return render(request, "companies/table.html", context)
+    return render(request, "companies/list.html", context)
 
 
-def update_create_company(request, company_id=None):
-    company_obj = None
-    title = "cotización"
-    section = "registro de compañias"
-    title_head = "re-com"
-    context = {}
-    # update view
-    if company_id:
-        company_obj = get_object_or_404(Company, id=company_id)
-        form_company = CompanyForm(request.POST or None, instance=company_obj)
-        context["form_company"] = form_company
-        context["company_obj"] = company_obj
-        if request.method == "POST":
-            form_company = CompanyForm(request.POST or None, instance=company_obj)
-            if form_company.is_valid():
-                form_company.save()
-                messages.success(request, "Actualizado.")
-                return redirect("companies:update_company", company_id=company_id)
-            else:
-                messages.error(request, "Hubo un error en el Registro.")
-    # create view
-    elif company_id == None:
-        form_company = CompanyForm()
-        context["form_company"] = form_company
-        if request.method == "POST":
-            form_company = CompanyForm(request.POST or None)
-            if form_company.is_valid():
-                form_company.save()
-                messages.success(request, "Creado.")
-                return redirect("companies:create_company")
-            else:
-                messages.error(request, "Hubo un error en el Registro.")
-
+def create_company(request):
+    first_section = "-"
+    second_section = "-"
+    title = "crear organización"
+    if request.method == "POST":
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(
+                status=204,
+                headers={"HX-Trigger": "companyListChanged"}
+                # headers={
+                #     "HX-Trigger": json.dumps(
+                #         {
+                #             "movieListChanged": None,
+                #             "showMessage": f"{company.title} added.",
+                #         }
+                #     )
+                # },
+            )
+    else:
+        form = CompanyForm()
     context = {
-        "form_company": form_company,
-        "company_obj": company_obj,
+        "form": form,
+        "first_section": first_section,
+        "second_section": second_section,
         "title": title,
-        "title_head": title_head,
-        "section": section,
     }
+    return render(request, "companies/form.html", context)
 
-    return render(request, "companies/form_update_create.html", context)
+
+def update_company(request, company_pk):
+    company = get_object_or_404(Company, pk=company_pk)
+    first_section = "-"
+    second_section = "-"
+    title = "editar organización"
+    if request.method == "POST":
+        form = CompanyForm(request.POST, instance=company)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(
+                status=204,
+                headers={"HX-Trigger": "companyListChanged"}
+                # headers={
+                #     "HX-Trigger": json.dumps(
+                #         {
+                #             "movieListChanged": None,
+                #             "showMessage": f"{company.title} added.",
+                #         }
+                #     )
+                # },
+            )
+    else:
+        form = CompanyForm(instance=company)
+    context = {
+        "form": form,
+        "company": company,
+        "first_section": first_section,
+        "second_section": second_section,
+        "title": title,
+    }
+    return render(request, "companies/form.html", context)
 
 
-def detail_company(request, company_id):
-    company_obj = get_object_or_404(Company, id=company_id)
-    title = "información"
-
-    context = {"company_obj": company_obj, "title": title}
-
+def detail_company(request, company_pk):
+    company = get_object_or_404(Company, id=company_pk)
+    context = {
+        "company": company,
+    }
     return render(request, "companies/detail.html", context)
 
 
-def delete_company(request, company_id):
-    company_obj = Company.objects.get(id=company_id)
-    company_obj.delete()
-    list_companies = Company.objects.all()
-    context = {
-        "list_companies": list_companies,
-    }
-
-    return render(request, "companies/table.html", context)
+@require_POST
+def delete_company(request, company_pk):
+    company = get_object_or_404(Company, pk=company_pk)
+    company.delete()
+    return HttpResponse(
+        status=204,
+        headers={"HX-Trigger": "companyListChanged"}
+        # headers={
+        #     "HX-Trigger": json.dumps(
+        #         {
+        #             "movieListChanged": None,
+        #             "showMessage": f"{company.title} added.",
+        #         }
+        #     )
+        # },
+    )

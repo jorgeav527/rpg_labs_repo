@@ -9,7 +9,9 @@ class Company(models.Model):
     address = models.CharField(max_length=254)
     ruc = models.PositiveBigIntegerField(unique=True)
     type_company = models.CharField(
-        max_length=20, choices=TypeCompany.choices, default=TypeCompany.ENTERPRICE
+        max_length=20,
+        choices=TypeCompany.choices,
+        default=TypeCompany.ENTERPRICE,
     )
     created = models.DateTimeField("created at", auto_now_add=True)
     updated = models.DateTimeField("updated at", auto_now=True)
@@ -21,6 +23,3 @@ class Company(models.Model):
 
     def __str__(self):
         return f"{self.social_reason} {self.ruc}"
-
-    def get_absolute_url(self):
-        return reverse_lazy("companies:company_detail", kwargs={"id": self.id})
