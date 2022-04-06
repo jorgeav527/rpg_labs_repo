@@ -82,16 +82,16 @@
 {% endif %}
 <tr id="replaceMe">
     <td> 
+        {% if list_orders.has_next %}
         <button class="btn btn-primary btn-sm" type="button"
-            {% if list_orders.has_next %}
             hx-get="{% url 'orders:list_order_quatotion' %}?page={{ list_orders.next_page_number }}"
             hx-target="#replaceMe"
             hx-swap="outerHTML">
-            {% else %}
             {% comment %} Here I have to put something to swap the btn {% endcomment %}
-            {% endif %}
-        Cargar ...
+            Cargar ...
         </button>
+        {% else %}
+        {% endif %}
     </td>
 </tr>
 {% else %}
