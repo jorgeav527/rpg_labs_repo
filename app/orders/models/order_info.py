@@ -9,6 +9,8 @@ class OrderInfo(models.Model):
     order_quotation = models.OneToOneField(
         OrderQuatotion,
         on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
     responsible = models.CharField(
         max_length=15, choices=TypeResponsible.choices, default=TypeResponsible.CLIENT
