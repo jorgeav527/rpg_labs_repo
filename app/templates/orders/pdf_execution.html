@@ -57,7 +57,7 @@
             <p>RUC: <span>{{ order_obj.order_quatotion.company.ruc }}</span></p>
         </td>
         <td>
-            <p>CELULAR: <span>{{ order_obj.order_quatotion.client.user.cell_phone|default_if_none:"" }}</span></p>
+            <p>CELULAR: <span>{{ order_obj.order_quatotion.client.user.cell_phone|default_if_none:"&nbsp;"|default:"&nbsp;" }}</span></p>
         </td>
     </tr>
 </table>
@@ -96,7 +96,7 @@
 <table style="width:100%">
     <tr>
         <td rowspan="5" width="58%">
-            <p>OBSERVACIONES: <span>{{ order_obj.observation|default_if_none:"Ninguna." }}</span></p>
+            <p>OBSERVACIONES: <span>{{ order_obj.observation|default_if_none:"&nbsp;"|default:"&nbsp;" }}</span></p>
         </td>
         <th width="24%" align="center">
             <p>Parcial: </p>
@@ -207,7 +207,13 @@
                 </tr>
                 {% for paid_item in order_obj.paiditemexecution_set.all %}
                 <tr>
-                    <td align="center">Nº{{ forloop.counter }}</td>
+                    {% if forloop.first %}
+                    <td align="center">Adelanto</td>
+                    {% elif forloop.last %}
+                    <td align="center">Entrega Final</td>
+                    {% else %}
+                    <td align="center">Pago Nº{{ forloop.counter0 }}</td>
+                    {% endif %}
                     <td align="center">{{ paid_item.percentage }} %</td>
                     <td align="center">S/. {{ paid_item.get_price }}</td>
                 </tr>

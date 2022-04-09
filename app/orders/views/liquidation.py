@@ -102,7 +102,11 @@ def pdf_liquidation_order(request, order_liquidation_pk):
     }
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = 'filename="report.pdf"'
+    response["Content-Disposition"] = 'filename="%s%s-%s.pdf"' % (
+        title_head,
+        order_obj.created.strftime("%Y%m%d"),
+        order_obj.pk,
+    )
     # find the template and render it.
     template = get_template(template_path)
     html = template.render(context)

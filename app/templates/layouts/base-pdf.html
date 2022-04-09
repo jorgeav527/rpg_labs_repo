@@ -47,7 +47,7 @@
 
     </style>
     <title>
-        RPG labs | {% block title_head %}{% endblock %} | SAC
+        RPG labs | {% block title_head %}{% endblock title_head %} {{ order_obj.created|date:"Ymd" }}-{{ order_obj.pk }} | SAC
     </title>
 </head>
 <body>

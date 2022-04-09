@@ -36,7 +36,7 @@
                 <p>CORREO ELECTRO: <span>{{ order_obj.client.user.email }}</span></p>
             </td>
             <td width="35%">
-                <p>CELULAR: <span>{{ order_obj.client.user.cell_phone }}</span></p>
+                <p>CELULAR: <span>{{ order_obj.client.user.cell_phone|default_if_none:"&nbsp;"|default:"&nbsp;" }}</span></p>
             </td>
         </tr>
     </table>
@@ -80,7 +80,7 @@
         <td align="center">N/A</td>
         {% endif %}
         <td>{{ order_item.characteristic_testlab.matrix }} - {{ order_item.testlab.name_test }}. {{ order_item.testlab.basic_norm }}</td>
-        <td align="center">{{ order_item.obs }}.</td>
+        <td align="center">{{ order_item.obs|default_if_none:"&nbsp;"|default:"&nbsp;" }}</td>
     </tr>
     {% endfor %}
 </table>
@@ -113,17 +113,7 @@
     </tr>
     <tr>
         <td>
-            <p><span>{{ order_obj.orderinfo.remseg|default_if_none:"Ninguna." }}</span></p>
-        </td>
-    </tr>
-    <tr>
-        <th align="center">
-            REQUISITOS DE LOS ESTUDIOS DE MECÁNICA DE SUELOS O ESTUDIOS GEOTÉCNICO
-        </th>
-    </tr>
-    <tr>
-        <td>
-            <p><span>{{ order_obj.orderinfo.remseg|default_if_none:"Ninguna." }}</span></p>
+            <p><span>{{ order_obj.orderinfo.remseg|default_if_none:"&nbsp;"|default:"&nbsp;" }}</span></p>
         </td>
     </tr>
     <tr>
@@ -143,7 +133,7 @@
     </tr>
     <tr>
         <td>
-            <p><span>{{ order_obj.orderinfo.observation|default_if_none:"Ninguna." }}</span></p>
+            <p><span>{{ order_obj.orderinfo.observation|default_if_none:"&nbsp;"|default:"&nbsp;" }}</span></p>
         </td>
     </tr>
  
@@ -172,7 +162,7 @@
                 <span>{% if order_obj.orderinfo.question_1 %}Si{% else %}No{% endif %}</span>
             </td>
             <td rowspan="8">
-                <span >{{ order_obj.orderinfo.obs|default_if_none:"Ninguna." }}</span>
+                <span >{{ order_obj.orderinfo.obs|default_if_none:"&nbsp;"|default:"&nbsp;" }}</span>
             </td>
         </tr>
         <tr>

@@ -27,9 +27,12 @@ def post_save_orderexecution_execution(
     sender, instance, created, using, update_fields, **kwargs
 ):
     if instance.execution:
-        OrderExecution.objects.get_or_create(
-            order_quatotion=instance, discount=instance.discount
-        )
+        try:
+            OrderExecution.objects.get_or_create(
+                order_quatotion=instance, discount=instance.discount
+            )
+        except:
+            pass
     if instance.execution == False:
         try:
             OrderExecution.objects.get(order_quatotion=instance).delete()
@@ -42,10 +45,13 @@ def post_save_orderexecution_liquidation(
     sender, instance, created, using, update_fields, **kwargs
 ):
     if instance.liquidation:
-        OrderLiquidation.objects.get_or_create(
-            order_execution=instance.orderexecution,
-            discount=instance.orderexecution.discount,
-        )
+        try:
+            OrderLiquidation.objects.get_or_create(
+                order_execution=instance.orderexecution,
+                discount=instance.orderexecution.discount,
+            )
+        except:
+            pass
     if instance.liquidation == False:
         try:
             OrderLiquidation.objects.get(
