@@ -2,8 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import get_template
 from django.views.decorators.http import require_POST
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-
+from django.core.paginator import Paginator
+import csv
 
 from xhtml2pdf import pisa
 
@@ -17,7 +17,7 @@ from orders.utils import link_callback
 
 def list_order_quatotion(request):
     qs = OrderQuatotion.objects.all()
-    paginator = Paginator(qs, 40)
+    paginator = Paginator(qs, 25)
     page_number = request.GET.get("page")
     list_orders = paginator.get_page(page_number)
     context = {
@@ -243,4 +243,70 @@ def pdf_requirement_order(request, order_quatotion_pk):
     # if error then show some funy view
     if pisa_status.err:
         return HttpResponse("We had some errors <pre>" + html + "</pre>")
+    return response
+
+
+def csv_quatotion_order(request):
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = "attachment; filename=cotizaciones.csv"
+
+    # Create a csv writer
+    writer = csv.writer(response)
+
+    # Designate The Model
+    quatotion = OrderQuatotion.objects.all()
+
+    # Add column headings to the csv file
+    writer.writerow(
+        [
+            "id",
+            "cotización numero",
+            "compañia",
+            "proyecto",
+            "cliente",
+            "descuento (S/.)",
+            "sub total (S/.)",
+            "total no inc igv (S/.)",
+            "igv (S/.)",
+            "total inc igv (S/.)",
+            "cotización",
+            "requerimiento",
+            "ejecución",
+            "liquidación",
+            "tipo de servicio",
+            "observación",
+            "total pagado (%)",
+            "total pagado (S/.)",
+            "created (aaaa-mm-dd hh-mm-ss)",
+            "updated (aaaa-mm-dd hh-mm-ss)",
+        ]
+    )
+
+    # Loop Thu and output
+    for item in quatotion:
+        writer.writerow(
+            [
+                item.id,
+                item.created.strftime("%Y%m%d") + "-" + str(item.id),
+                item.company,
+                item.project,
+                item.client,
+                item.discount,
+                item.get_sub_total_quatotion(),
+                item.get_total_not_igv_quatotion(),
+                item.get_igv_quatotion(),
+                item.get_total_igv_quatotion(),
+                item.quatotion,
+                item.requirement,
+                item.execution,
+                item.liquidation,
+                item.get_type_service_display(),
+                item.observation,
+                item.get_total_paid_percentage(),
+                item.get_total_paid(),
+                item.created.strftime("%Y-%m-%d %H:%M:%S"),
+                item.updated.strftime("%Y-%m-%d %H:%M:%S"),
+            ]
+        )
+
     return response

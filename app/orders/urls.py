@@ -7,9 +7,14 @@ app_name = "orders"
 urlpatterns = [
     # ORDER QUATOTION
     path(
-        "list-quatotion/",
+        "list/quatotion/",
         views.list_order_quatotion,
         name="list_order_quatotion",
+    ),
+    path(
+        "search/list/quatotion/",
+        views.search_list_order_quatotion,
+        name="search_list_order_quatotion",
     ),
     path(
         "create-quatotion/",
@@ -40,6 +45,11 @@ urlpatterns = [
         "pdf/requirement/<int:order_quatotion_pk>/",
         views.pdf_requirement_order,
         name="pdf_requirement_order",
+    ),
+    path(
+        "csv/quatotion/",
+        views.csv_quatotion_order,
+        name="csv_quatotion_order",
     ),
     # ORDER EXECUTION
     path(
@@ -78,10 +88,5 @@ urlpatterns = [
         "edit-info/<int:order_quatotion_pk>",
         views.edit_order_quatotion_info,
         name="edit_order_quatotion_info",
-    ),
-    path(
-        "searchlist_order_quatotion/",
-        views.search_list_order_quatotion,
-        name="search_list_order_quatotion",
     ),
 ]

@@ -33,12 +33,31 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ second_section|upper }}</h5>
 
+                    <div class="btn-toolbar mb-3">
+                        <div class="input-group me-2">
+                            <div class="input-group-text"><i class="bi bi-search"></i></div>
+                            <form class="search-form me-2">
+                                {% csrf_token %}
+                                <input  type="text" class="form-control" name="query" placeholder="Buscar"
+                                    hx-get="{% url 'companies:search_list_company' %}"
+                                    hx-target="#table-companies"
+                                    hx-swap="innerHTML"
+                                    hx-trigger="keyup changed delay:200ms">
+                            </form><!-- End Search Bar --> 
+                            </div>
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-success btn-sm"
+                                href="{% url 'companies:csv_company' %}">
+                                <i class="bi bi-file-earmark-spreadsheet me-2"></i>Excel
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- Table with stripped rows -->
                     <div class="table-responsive">
                         <table class="table text-nowrap">
                             <thead>
                                 <tr>
-                                    <th scope="col">Nº</th>
                                     <th scope="col">Razón Social</th>
                                     <th scope="col">Dirección</th>
                                     <th scope="col">RUC</th>
@@ -48,7 +67,7 @@
                                     <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody hx-trigger="load delay:500ms, companyListChanged from:body delay:500ms" hx-get="{% url 'companies:list_company' %}">
+                            <tbody id="table-companies" hx-trigger="load delay:500ms, companyListChanged from:body delay:500ms" hx-get="{% url 'companies:list_company' %}">
                                 <tr>
                                     <td class="spinner-border" role="status">
                                         <span class="visually-hidden">Cargando...</span>

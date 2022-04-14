@@ -69,21 +69,25 @@
                                     {% render_field form_quatotion.quatotion class="form-check-input" %}
                                     <label class="form-check-label"
                                         for="{{ form_quatotion.quatotion.id_for_label }}">{{ form_quatotion.quatotion.label }}</label>
+                                    <div class="invalid-feedback">{{ form_quatotion.quatotion.errors|first }}</div>
                                 </div>
                                 <div class="form-check">
                                     {% render_field form_quatotion.requirement class="form-check-input" %}
                                     <label class="form-check-label"
                                         for="{{ form_quatotion.requirement.id_for_label }}">{{ form_quatotion.requirement.label }}</label>
+                                    <div class="invalid-feedback">{{ form_quatotion.requirement.errors|first }}</div>
                                 </div>
                                 <div class="form-check">
                                     {% render_field form_quatotion.execution class="form-check-input" %}
                                     <label class="form-check-label"
                                         for="{{ form_quatotion.execution.id_for_label }}">{{ form_quatotion.execution.label }}</label>
+                                    <div class="invalid-feedback">{{ form_quatotion.execution.errors|first }}</div>
                                 </div>
                                 <div class="form-check">
                                     {% render_field form_quatotion.liquidation class="form-check-input" %}
                                     <label class="form-check-label"
                                         for="{{ form_quatotion.liquidation.id_for_label }}">{{ form_quatotion.liquidation.label }}</label>
+                                    <div class="invalid-feedback">{{ form_quatotion.liquidation.errors|first }}</div>
                                 </div>
                             </div>
                             <div class="col-md-3">

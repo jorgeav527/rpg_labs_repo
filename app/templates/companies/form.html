@@ -24,7 +24,7 @@
         </div>
         <div class="mb-3">
             <label for="{{ form.type_company.id_for_label }}" class="form-label">{{ form.type_company.label }}</label>
-            {% render_field form.type_company class="form-control" placeholder="Grupo RPG SAC" %}
+            {% render_field form.type_company class="form-select" placeholder="Grupo RPG SAC" %}
             <div class="invalid-feedback">{{ form.type_company.errors|first }}</div>
         </div>
     </div>

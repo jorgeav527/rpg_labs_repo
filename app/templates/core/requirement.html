@@ -5,10 +5,12 @@
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
-tr.htmx-swapping td {
-opacity: 0;
-transition: opacity 500ms ease-out;
-}
+<style>
+    tr.htmx-swapping td {
+        opacity: 0;
+        transition: opacity 500ms ease-out;
+    }
+</style>
 {% endblock stylesheets %}
 
 {% block main_content %}
@@ -29,30 +31,39 @@ transition: opacity 500ms ease-out;
 
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <h5 class="card-title">{{ second_section|upper }}</h5>
-                        <div class="ms-auto">
-                            <form class="search-form d-flex align-items-center">
+                    <h5 class="card-title">{{ second_section|upper }}</h5>
+   
+                    <div class="btn-toolbar mb-3">
+                        <div class="input-group me-2">
+                            <div class="input-group-text"><i class="bi bi-search"></i></div>
+                            <form class="search-form me-2">
                                 {% csrf_token %}
-                                <input  type="text" name="query" placeholder="Buscar"
+                                <input  type="text" class="form-control" name="query" placeholder="Buscar"
                                     hx-get="{% url 'orders:search_list_order_quatotion' %}"
                                     hx-target="#table-orders-quatotion"
                                     hx-swap="innerHTML"
                                     hx-trigger="keyup changed delay:200ms">
-                            </form>
-                        </div><!-- End Search Bar -->                    
+                            </form><!-- End Search Bar --> 
+                            </div>
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-success btn-sm"
+                                href="{% url 'orders:csv_quatotion_order' %}">
+                                <i class="bi bi-file-earmark-spreadsheet me-2"></i>Excel
+                            </a>
+                        </div>
                     </div>
-                    
-                    <!-- End Search Bar -->
 
                     <!-- Table with stripped rows -->
                     <div class="table-responsive">
                         <table class="table text-nowrap">
                             <thead>
                                 <tr>
-                                    <th scope="col">Nº de Orden</th>
-                                    <th scope="col">Total</th>
+                                    <th scope="col">Orden</th>
                                     <th scope="col">Descuento</th>
+                                    <th scope="col">Sub Total</th>
+                                    <th scope="col">Total <span class="text-decoration-line-through">IGV</span></th>
+                                    <th scope="col">IGV</th>
+                                    <th scope="col">Total IGV</th>
                                     <th scope="col">Creado</th>
                                     <th scope="col">Actualizado</th>
                                     <th scope="col">Acciones</th>
