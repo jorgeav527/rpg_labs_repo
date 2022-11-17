@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 
 from core.models import Sample
 
-admin.site.register(Sample)
+# admin.site.register(Sample)
 
 # Register your models here.
 admin.site.unregister(Group)
